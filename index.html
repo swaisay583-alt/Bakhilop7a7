@@ -3,329 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🏠 NGÔI NHÀ 7A7 ULTIMATE V4</title>
+    <title>🏠 NGÔI NHÀ 7A7 V5.0 - SIÊU VŨ TRỤ</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* ================= VÙNG BIẾN CSS & CƠ BẢN ================= */
         :root {
-            --bg-color: #0b0c10; --surface-color: rgba(31, 40, 51, 0.85);
-            --primary: #9d4edd; --secondary: #00f5d4; --accent: #ff0a54;
-            --text-main: #c5c6c7; --text-light: #ffffff; --noc-noc-glow: #39ff14;
-            --gold: #ffd700;
+            --bg-color: #050505; --surface-color: rgba(20, 25, 35, 0.85);
+            --primary: #8a2be2; --secondary: #00ffff; --accent: #ff007f;
+            --text-main: #e0e0e0; --text-light: #ffffff; --noc-noc-glow: #39ff14;
+            --gold: #ffaa00; --glass-bg: rgba(255, 255, 255, 0.05);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Nunito', sans-serif; background: radial-gradient(circle at top, #1a0b2e, var(--bg-color)); color: var(--text-light); min-height: 100vh; overflow-x: hidden; padding-bottom: 80px;}
+        body { font-family: 'Nunito', sans-serif; background: radial-gradient(circle at top, #1a0b2e, var(--bg-color)); color: var(--text-light); min-height: 100vh; overflow-x: hidden; padding-bottom: 90px; transition: background 0.5s;}
         
-        /* Bầu trời sao */
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)), radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)), radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)); background-repeat: repeat; background-size: 200px 200px; animation: starsAnim 4s linear infinite; opacity: 0.3; }
-        @keyframes starsAnim { 0% { transform: translateY(0); } 100% { transform: translateY(-200px); } }
+        /* HIỆU ỨNG NỀN VŨ TRỤ CHUYỂN ĐỘNG */
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)), radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)), radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)), radial-gradient(3px 3px at 150px 150px, var(--secondary), rgba(0,0,0,0)); background-repeat: repeat; background-size: 250px 250px; animation: starsAnim 6s linear infinite; opacity: 0.5; }
+        @keyframes starsAnim { 0% { transform: translateY(0) rotate(0deg); } 100% { transform: translateY(-250px) rotate(1deg); } }
+        
+        /* PARTICLES CLICK */
+        .click-effect { position: fixed; border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); animation: explode 0.5s ease-out forwards; z-index: 99999; }
+        @keyframes explode { 0% { width: 0; height: 0; opacity: 1; border: 4px solid var(--secondary); box-shadow: 0 0 20px var(--secondary); } 100% { width: 50px; height: 50px; opacity: 0; border: 1px solid var(--primary); } }
 
-        h1, h2, h3 { text-shadow: 0 0 10px var(--primary); text-align: center; margin-bottom: 10px;}
-        h1 { font-size: 1.8rem; background: linear-gradient(90deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding: 10px 0;}
+        /* TYPOGRAPHY */
+        h1, h2, h3, h4 { text-shadow: 0 0 15px var(--primary); text-align: center; margin-bottom: 12px; letter-spacing: 1px;}
+        h1 { font-size: 2rem; background: linear-gradient(90deg, var(--secondary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding: 15px 0; animation: pulseText 2s infinite alternate;}
+        @keyframes pulseText { from { filter: drop-shadow(0 0 5px var(--primary)); } to { filter: drop-shadow(0 0 15px var(--secondary)); } }
         .text-center { text-align: center; } .mb-2 { margin-bottom: 10px; } .mt-2 { margin-top: 10px; } .hidden { display: none !important; }
-        
-        /* BOTTOM NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(11, 12, 16, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid var(--primary); z-index: 9999; box-shadow: 0 -5px 25px rgba(157, 78, 221, 0.5);}
-        .nav-btn { color: var(--text-main); font-size: 1.3rem; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; align-items: center; width: 20%;}
-        .nav-btn span { font-size: 0.65rem; font-weight: bold; margin-top: 5px; }
-        .nav-btn.active { color: var(--secondary); text-shadow: 0 0 15px var(--secondary); transform: translateY(-7px); }
 
-        .screen { display: none; padding: 15px 15px; animation: fadeIn 0.3s ease-out; }
+        /* ================= THANH ĐIỀU HƯỚNG CUỘN NGANG (NHIỀU TAB) ================= */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(20px); display: flex; padding: 15px 10px; border-top: 2px solid var(--primary); z-index: 10000; box-shadow: 0 -5px 30px rgba(138, 43, 226, 0.6); overflow-x: auto; white-space: nowrap; scroll-behavior: smooth; }
+        .bottom-nav::-webkit-scrollbar { height: 4px; } .bottom-nav::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
+        .nav-btn { color: var(--text-main); font-size: 1.5rem; cursor: pointer; transition: 0.3s; display: inline-flex; flex-direction: column; align-items: center; min-width: 70px; flex-shrink: 0; }
+        .nav-btn span { font-size: 0.65rem; font-weight: bold; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .nav-btn.active { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); transform: translateY(-8px); }
+
+        /* ================= BỐ CỤC SCREEN & CARD ================= */
+        .screen { display: none; padding: 10px 15px; animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; }
         .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.9) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-        /* CARDS & BUTTONS */
-        .card { background: var(--surface-color); border: 1px solid rgba(0, 245, 212, 0.2); border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); backdrop-filter: blur(8px); }
-        .btn { background: linear-gradient(45deg, var(--primary), var(--accent)); border: none; color: white; padding: 12px 15px; border-radius: 15px; font-size: 1rem; font-weight: 900; width: 100%; cursor: pointer; margin-bottom: 10px; transition: 0.1s; box-shadow: 0 4px 15px rgba(255, 10, 84, 0.4);}
-        .btn:active { transform: scale(0.95); }
-        .btn-secondary { background: linear-gradient(45deg, #1f2833, #45a29e); box-shadow: 0 4px 15px rgba(69, 162, 158, 0.4);}
-        .btn-game { background: linear-gradient(45deg, #f39c12, #d35400); box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);}
+        .card { background: var(--glass-bg); border: 1px solid rgba(0, 255, 255, 0.15); border-radius: 20px; padding: 20px; margin-bottom: 18px; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 8px 32px rgba(0,0,0,0.5); backdrop-filter: blur(12px); position: relative; overflow: hidden; }
+        .card::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%); pointer-events: none; transform: rotate(45deg); }
+
+        /* ================= BUTTONS ================= */
+        .btn { background: linear-gradient(135deg, var(--primary), var(--accent)); border: none; color: white; padding: 14px 15px; border-radius: 15px; font-size: 1.05rem; font-weight: 900; width: 100%; cursor: pointer; margin-bottom: 12px; transition: 0.2s; box-shadow: 0 5px 20px rgba(255, 0, 127, 0.4); text-transform: uppercase; position: relative; overflow: hidden;}
+        .btn::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: rgba(255,255,255,0.2); transform: rotate(45deg) translateY(-100%); transition: 0.3s; }
+        .btn:hover::after { transform: rotate(45deg) translateY(100%); }
+        .btn:active { transform: scale(0.92); box-shadow: 0 2px 10px rgba(255, 0, 127, 0.6); }
+        .btn-secondary { background: linear-gradient(135deg, #112233, #0088aa); box-shadow: 0 5px 20px rgba(0, 136, 170, 0.4);}
+        .btn-game { background: linear-gradient(135deg, #ff8c00, #ff003c); box-shadow: 0 5px 20px rgba(255, 140, 0, 0.4);}
+        .btn-shop { background: linear-gradient(135deg, #00c6ff, #0072ff); box-shadow: 0 5px 20px rgba(0, 198, 255, 0.4);}
+
+        /* ================= GRIDS & INPUTS ================= */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .input-box { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid var(--secondary); background: rgba(0,0,0,0.5); color: white; font-size: 1.1rem; margin-bottom: 15px; text-align: center; font-weight: bold; outline: none; transition: 0.3s; box-shadow: inset 0 0 10px rgba(0,255,255,0.1);}
+        .input-box:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--accent); }
+
+        /* ================= HỌC TẬP CỤ THỂ ================= */
+        .level-btn { background: #1a1a2e; border: 2px solid #16213e; color: white; padding: 12px 5px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 0.95rem; transition: 0.3s; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;}
+        .level-btn.active { border-color: var(--secondary); background: rgba(0,255,255,0.15); box-shadow: 0 0 15px rgba(0,255,255,0.4); transform: translateY(-3px);}
+        .quiz-opt { background: var(--glass-bg); padding: 16px; border-radius: 15px; margin-bottom: 12px; border: 2px solid rgba(255,255,255,0.1); font-weight: bold; transition: 0.2s; cursor: pointer; font-size: 1.1rem;}
+        .quiz-opt:active { transform: scale(0.98); }
+        .quiz-opt.correct { background: rgba(0,255,127,0.3); border-color: #00ff7f; box-shadow: 0 0 20px rgba(0,255,127,0.5); color: #fff;}
+        .quiz-opt.wrong { background: rgba(255,0,0,0.3); border-color: #ff0000; box-shadow: 0 0 20px rgba(255,0,0,0.5); color: #fff;}
+
+        /* ================= GAME CỤ THỂ ================= */
+        .game-board { position: relative; width: 100%; height: 350px; border-radius: 15px; overflow: hidden; background: radial-gradient(circle, #111, #000); border: 3px solid var(--secondary); cursor: crosshair; box-shadow: inset 0 0 30px rgba(0,255,255,0.2);}
+        .target-img { position: absolute; width: 80px; height: 80px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 25px var(--secondary); display: none; transition: 0.1s;}
         
-        /* HỌC TẬP (Cải tiến Grid) */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .level-btn { background: #2c3e50; border: 2px solid #34495e; color: white; padding: 10px 5px; border-radius: 12px; text-align: center; font-weight: bold; font-size: 0.9rem; transition: 0.2s;}
-        .level-btn.active { border-color: var(--secondary); background: rgba(0,245,212,0.2); box-shadow: 0 0 10px rgba(0,245,212,0.3); transform: scale(1.05);}
-        .quiz-opt { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.2); font-weight: bold; transition: 0.3s;}
-        .quiz-opt.correct { background: rgba(46,204,113,0.4); border-color: #2ecc71; box-shadow: 0 0 15px #2ecc71;}
-        .quiz-opt.wrong { background: rgba(231,76,60,0.4); border-color: #e74c3c; }
-
-        /* GAMES CƠ BẢN */
-        .game-board { position: relative; width: 100%; height: 320px; border-radius: 15px; overflow: hidden; background: #000; border: 3px solid var(--secondary); cursor: crosshair; }
-        .target-img { position: absolute; width: 70px; height: 70px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 20px var(--secondary); display: none; }
-        .input-box { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--primary); background: #111; color: white; font-size: 1rem; margin-bottom: 10px; text-align: center; font-weight: bold;}
-
-        /* GAME: LẬT THẺ TRÍ NHỚ */
-        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
-        .m-card { background: linear-gradient(45deg, var(--primary), var(--accent)); height: 70px; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 2rem; cursor: pointer; transition: transform 0.3s; transform-style: preserve-3d; box-shadow: 0 4px 10px rgba(0,0,0,0.5);}
+        /* Lật Thẻ */
+        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; perspective: 1000px;}
+        .m-card { background: linear-gradient(135deg, var(--primary), var(--accent)); height: 75px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 2.2rem; cursor: pointer; transition: transform 0.4s; transform-style: preserve-3d; box-shadow: 0 5px 15px rgba(0,0,0,0.6);}
         .m-card.flipped { background: #2c3e50; transform: rotateY(180deg); }
-        .m-card.matched { background: var(--secondary); opacity: 0.8; transform: rotateY(180deg) scale(0.9); }
+        .m-card.matched { background: var(--secondary); opacity: 0.6; transform: rotateY(180deg) scale(0.85); box-shadow: 0 0 20px var(--secondary);}
         .m-card span { display: none; transform: rotateY(180deg); }
         .m-card.flipped span, .m-card.matched span { display: block; }
 
-        /* GAME: GACHA NHÂN PHẨM */
-        .gacha-box { width: 150px; height: 150px; margin: 20px auto; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23ffd700" stroke="%23ff8c00" stroke-width="5"/><text x="50" y="55" font-size="30" text-anchor="middle" fill="white">❓</text></svg>') center/contain no-repeat; transition: all 0.5s; cursor: pointer; filter: drop-shadow(0 0 20px var(--gold));}
-        .gacha-box.spinning { animation: spinGacha 0.5s linear infinite; filter: hue-rotate(180deg) blur(2px); }
+        /* Gacha */
+        .gacha-box { width: 160px; height: 160px; margin: 20px auto; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%232c3e50" stroke="%2300ffff" stroke-width="4"/><text x="50" y="60" font-size="40" text-anchor="middle" fill="white">💎</text></svg>') center/contain no-repeat; transition: 0.5s; cursor: pointer; filter: drop-shadow(0 0 25px var(--secondary));}
+        .gacha-box.spinning { animation: spinGacha 0.4s cubic-bezier(0.5, 0, 0.5, 1) infinite; filter: hue-rotate(90deg) blur(3px) drop-shadow(0 0 30px var(--accent)); }
         @keyframes spinGacha { 100% { transform: rotate(360deg) scale(1.1); } }
-        .gacha-res { font-size: 1.5rem; font-weight: 900; margin-top: 15px; color: var(--gold); text-shadow: 0 0 10px var(--gold); min-height: 40px;}
+        .gacha-res { font-size: 1.6rem; font-weight: 900; margin-top: 20px; color: var(--gold); text-shadow: 0 0 15px var(--gold); min-height: 50px; animation: popUp 0.5s;}
 
-        /* CHILL */
-        #screen-chill-bg { position: fixed; top:0; left:0; width: 100vw; height: 100vh; background: url('555cbccd02e7956f96e93a29071dc855.jpg') center/cover no-repeat; z-index: -2; opacity: 0; transition: opacity 1s; }
-        #screen-chill.active ~ #screen-chill-bg { opacity: 0.85; }
-        .glass-card { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); }
+        /* Tic Tac Toe (Caro) */
+        .tictac-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 250px; margin: 15px auto; }
+        .tictac-cell { background: rgba(255,255,255,0.1); border: 2px solid var(--primary); height: 80px; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; border-radius: 10px; cursor: pointer; transition: 0.3s; color: var(--text-light); text-shadow: 0 0 15px #fff;}
+        .tictac-cell:hover { background: rgba(255,255,255,0.2); }
+        .tictac-cell.x { color: var(--accent); text-shadow: 0 0 20px var(--accent); }
+        .tictac-cell.o { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); }
 
-        /* TOAST THÔNG BÁO */
-        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; flex-direction: column; gap: 10px; pointer-events: none;}
-        .toast { background: rgba(0, 245, 212, 0.9); color: #000; font-weight: 900; padding: 10px 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: slideDown 0.3s ease-out, fadeOut 0.5s ease-in 2.5s forwards; }
-        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes fadeOut { to { opacity: 0; transform: translateY(-20px); } }
+        /* ================= CHILL / THIỀN ================= */
+        #screen-chill-bg { position: fixed; top:0; left:0; width: 100vw; height: 100vh; background: url('555cbccd02e7956f96e93a29071dc855.jpg') center/cover no-repeat; z-index: -2; opacity: 0; transition: opacity 1.5s ease-in-out; }
+        #screen-chill.active ~ #screen-chill-bg { opacity: 0.9; }
+        .breathe-circle { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, var(--secondary), transparent); margin: 30px auto; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; text-shadow: 0 0 5px #000; box-shadow: 0 0 30px var(--secondary); transition: all 4s ease-in-out; }
+        .breathe-circle.inhale { transform: scale(1.8); background: radial-gradient(circle, var(--accent), transparent); box-shadow: 0 0 60px var(--accent);}
 
+        /* ================= CỬA HÀNG & NHẬT KÝ ================= */
+        .shop-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--gold); }
+        .diary-entry { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 5px solid var(--primary); font-style: italic;}
+
+        /* ================= TOAST THÔNG BÁO ================= */
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 100000; display: flex; flex-direction: column; gap: 12px; pointer-events: none; width: 90%; max-width: 400px;}
+        .toast { background: linear-gradient(90deg, rgba(0, 255, 255, 0.9), rgba(138, 43, 226, 0.9)); color: #fff; font-weight: 900; padding: 15px 25px; border-radius: 10px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); border: 1px solid #fff; animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), fadeOut 0.5s ease-in 3s forwards; text-align: center; font-size: 1.1rem;}
+        @keyframes slideDown { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(-30px) scale(0.9); } }
+
+        .stat-box { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: bold; font-size: 1.1rem;}
     </style>
 </head>
-<body>
+<body onclick="createClickEffect(event)">
+
+    <!-- AUDIO ENGINE (Không cần file ngoài) -->
     <audio id="bgm-audio" loop><source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg"></audio>
+    <audio id="rain-audio" loop><source src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_884483786a.mp3" type="audio/mpeg"></audio>
+
     <div class="stars"></div>
     <div id="screen-chill-bg"></div>
-    
     <div id="toast-container"></div>
 
-    <!-- 1. TRANG CHỦ -->
+    <!-- ================= 1. TRANG CHỦ ================= -->
     <div id="screen-home" class="screen active">
-        <div class="card text-center" style="border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(157, 78, 221, 0.4);">
-            <h1>🏠 NGÔI NHÀ 7A7 <br><span style="color:var(--gold); font-size:1.2rem;">ULTIMATE V4.0</span></h1>
-            <p style="color: var(--secondary); font-weight: bold; margin-bottom:10px;">✨ Học bá khí · Chơi hết ý ✨</p>
+        <div class="card text-center" style="border: 2px solid var(--primary); box-shadow: 0 0 40px rgba(138, 43, 226, 0.5);">
+            <h1 style="font-size: 2.2rem;">🏠 NGÔI NHÀ 7A7 <br><span style="color:var(--gold); font-size:1.4rem; text-transform:uppercase;">Ultimate V5.0</span></h1>
+            <p style="color: var(--secondary); font-weight: 900; margin-bottom:15px; font-size: 1.2rem;">✨ Độc Quyền - Đỉnh Cao - Bá Đạo ✨</p>
             <div class="grid-2">
-                <div style="background: rgba(0,0,0,0.5); padding:10px; border-radius:10px; border: 1px solid #ffd700;">
-                    <p style="font-size:0.8rem">Tổng Điểm XP</p>
-                    <h2 id="home-xp" style="color:var(--gold); margin:0; text-shadow: 0 0 10px var(--gold);">0</h2>
+                <div style="background: rgba(0,0,0,0.6); padding:15px; border-radius:15px; border: 1px solid var(--gold); box-shadow: 0 0 15px rgba(255,170,0,0.3);">
+                    <p style="font-size:0.9rem; font-weight:bold; color:#aaa;">TÀI SẢN (XP)</p>
+                    <h2 id="home-xp" style="color:var(--gold); margin:0; font-size: 2.5rem;">0</h2>
                 </div>
-                <div style="background: rgba(0,0,0,0.5); padding:10px; border-radius:10px; border: 1px solid var(--noc-noc-glow);">
-                    <p style="font-size:0.8rem">Nọc Nọc Đã Tóm</p>
-                    <h2 id="home-nocnoc" style="color:var(--noc-noc-glow); margin:0;">0</h2>
+                <div style="background: rgba(0,0,0,0.6); padding:15px; border-radius:15px; border: 1px solid var(--noc-noc-glow); box-shadow: 0 0 15px rgba(57,255,20,0.3);">
+                    <p style="font-size:0.9rem; font-weight:bold; color:#aaa;">NỌC NỌC TÓM ĐƯỢC</p>
+                    <h2 id="home-nocnoc" style="color:var(--noc-noc-glow); margin:0; font-size: 2.5rem;">0</h2>
                 </div>
             </div>
         </div>
         <div class="card">
-            <h3 style="text-align: left; border-left: 4px solid var(--secondary); padding-left: 10px;">Bản Đồ 7A7</h3>
-            <button class="btn" onclick="switchTab('screen-study', 1)">📚 Vô Thi Học Kỳ</button>
-            <button class="btn btn-game" onclick="switchTab('screen-games', 2)">🎮 Phá Đảo Khu Game (NEW)</button>
-            <button class="btn btn-secondary" onclick="switchTab('screen-chill', 3)">🌿 Nằm Chill Nghe Nhạc</button>
+            <h3 style="text-align: left; border-left: 5px solid var(--accent); padding-left: 10px;">Lối Tắt Thần Tốc</h3>
+            <button class="btn" onclick="switchTab('screen-study', 1)">📚 Vô Thi Học Kỳ Khoe Trình</button>
+            <button class="btn btn-game" onclick="switchTab('screen-games', 2)">🎮 Quẩy Nát Khu Game 8 Trò</button>
+            <button class="btn btn-shop" onclick="switchTab('screen-shop', 4)">🛒 Tiêu Tiền Mua Danh Hiệu</button>
+        </div>
+        <div class="card text-center" style="background: rgba(255, 0, 127, 0.1); border-color: var(--accent);">
+            <h4 style="color:var(--accent)">Châm Ngôn Hôm Nay</h4>
+            <p id="daily-quote" style="font-style:italic; font-size: 1.1rem;">"Học không chơi đánh rơi tuổi trẻ. Chơi không học bán rẻ tương lai!"</p>
         </div>
     </div>
 
-    <!-- 2. HỌC TẬP (NÂNG CẤP) -->
+    <!-- ================= 2. HỌC TẬP ================= -->
     <div id="screen-study" class="screen">
-        <h1>📚 Lò Luyện Đan 7A7</h1>
+        <h1 style="font-size: 2.5rem;">📚 Lò Luyện Đan 7A7</h1>
         <div id="study-menu" class="card">
-            <h3 style="color:var(--secondary)">1. Chọn Pháp Khí (Môn Học)</h3>
+            <h3 style="color:var(--secondary)">1. Lựa Chọn Pháp Khí (Môn)</h3>
             <div class="grid-3 mb-2">
-                <div class="level-btn" onclick="selectSub('Toán')" id="sub-Toán">📐 Toán</div>
-                <div class="level-btn" onclick="selectSub('Văn')" id="sub-Văn">📖 Văn</div>
-                <div class="level-btn" onclick="selectSub('Anh')" id="sub-Anh">🌍 Anh</div>
-                <div class="level-btn" onclick="selectSub('KHTN')" id="sub-KHTN">🧪 KHTN</div>
-                <div class="level-btn" onclick="selectSub('SửĐịa')" id="sub-SửĐịa">🗺️ Sử Địa</div>
-                <div class="level-btn" onclick="selectSub('GDCD')" id="sub-GDCD">⚖️ GDCD</div>
+                <div class="level-btn" onclick="selectSub('Toán')" id="sub-Toán"><span style="font-size:1.5rem">📐</span>Toán</div>
+                <div class="level-btn" onclick="selectSub('Văn')" id="sub-Văn"><span style="font-size:1.5rem">📖</span>Ngữ Văn</div>
+                <div class="level-btn" onclick="selectSub('Anh')" id="sub-Anh"><span style="font-size:1.5rem">🌍</span>Tiếng Anh</div>
+                <div class="level-btn" onclick="selectSub('KHTN')" id="sub-KHTN"><span style="font-size:1.5rem">🧪</span>KHTN</div>
+                <div class="level-btn" onclick="selectSub('SửĐịa')" id="sub-SửĐịa"><span style="font-size:1.5rem">🗺️</span>Sử Địa</div>
+                <div class="level-btn" onclick="selectSub('GDCD')" id="sub-GDCD"><span style="font-size:1.5rem">⚖️</span>GDCD</div>
             </div>
-            <h3 style="color:var(--accent)">2. Chọn Độ Khó</h3>
+            <h3 style="color:var(--accent); margin-top:20px;">2. Mức Độ Khắc Nghiệt</h3>
             <div class="grid-2 mb-2">
                 <div class="level-btn" onclick="selectDiff('Dễ')" id="diff-Dễ">🌱 Khởi Động</div>
                 <div class="level-btn" onclick="selectDiff('TB')" id="diff-TB">⚔️ Vượt Trướng</div>
                 <div class="level-btn" onclick="selectDiff('Khó')" id="diff-Khó">🔥 Tăng Tốc</div>
-                <div class="level-btn" onclick="selectDiff('SiêuKhó')" id="diff-SiêuKhó" style="border-color:var(--accent); color:var(--accent);">💀 Về Đích</div>
+                <div class="level-btn" onclick="selectDiff('SiêuKhó')" id="diff-SiêuKhó" style="border-color:var(--accent); color:var(--accent); text-shadow: 0 0 10px var(--accent);">💀 Về Đích</div>
             </div>
-            <button class="btn mt-2" onclick="startQuiz()" style="font-size: 1.2rem; padding: 15px;">🚀 Bắt Đầu Chiến</button>
+            <button class="btn mt-2" onclick="startQuiz()" style="font-size: 1.3rem; padding: 18px; letter-spacing: 2px;">🚀 KHAI CHIẾN</button>
         </div>
         
         <div id="study-quiz" class="card hidden">
-            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px; margin-bottom: 15px;">
-                <span id="q-title" style="color:var(--secondary); font-weight:bold;">Môn - Độ Khó</span>
-                <span style="color:var(--gold); font-weight:bold;">Câu: <span id="q-current">1</span>/5</span>
+            <div style="display: flex; justify-content: space-between; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 15px; margin-bottom: 20px;">
+                <span id="q-title" style="color:var(--secondary); font-weight:900; font-size:1.2rem; text-transform:uppercase;">Môn - Độ Khó</span>
+                <span style="color:var(--gold); font-weight:900; font-size:1.2rem;">Câu: <span id="q-current">1</span>/5</span>
             </div>
-            <p id="q-text" class="mb-2" style="font-size: 1.3rem; font-weight: 900; text-shadow: 0 0 5px rgba(255,255,255,0.5);">Câu hỏi?</p>
-            <div id="q-opts"></div>
-            <button class="btn mt-2 hidden" id="q-next" onclick="nextQ()">Câu Tiếp Theo ➡️</button>
-            <button class="btn btn-secondary mt-2" onclick="exitQuiz()">Thoát Ngay (Mất Điểm)</button>
+            <p id="q-text" class="mb-2" style="font-size: 1.4rem; font-weight: 900; line-height: 1.5; color: #fff;">Câu hỏi hiển thị ở đây?</p>
+            <div id="q-opts" style="margin-top: 20px;"></div>
+            <button class="btn mt-2 hidden" id="q-next" onclick="nextQ()" style="background:var(--secondary); color:#000;">Câu Tiếp Theo ➡️</button>
+            <button class="btn btn-secondary mt-2" onclick="exitQuiz()">Đầu Hàng (Thoát)</button>
         </div>
         
         <div id="study-result" class="card hidden text-center">
-            <h1 style="font-size: 3rem;">🎉</h1>
-            <h2 id="res-title" style="color:var(--gold)">Tổng Kết Môn Học</h2>
-            <p>Số câu đúng: <strong id="res-correct" style="font-size:1.5rem; color:var(--secondary)">0</strong>/5</p>
-            <p id="res-msg" style="font-style:italic; margin-top:10px; color:#bbb;"></p>
-            <button class="btn mt-2" onclick="exitQuiz()">Quay Về Lò Luyện</button>
+            <h1 style="font-size: 4rem; animation: bounce 1s infinite;">🏆</h1>
+            <h2 id="res-title" style="color:var(--gold); font-size: 2rem;">Bảng Phong Thần</h2>
+            <p style="font-size: 1.2rem;">Kẻ sĩ đã trả lời đúng:</p>
+            <p><strong id="res-correct" style="font-size:3.5rem; color:var(--secondary); text-shadow: 0 0 20px var(--secondary);">0</strong><span style="font-size:2rem">/5</span></p>
+            <p id="res-msg" style="font-style:italic; margin-top:15px; color:#bbb; font-size: 1.1rem; padding: 10px; background: rgba(0,0,0,0.5); border-radius: 10px;"></p>
+            <button class="btn mt-2" onclick="exitQuiz()" style="font-size:1.2rem; margin-top:20px;">Về Lò Luyện Đan</button>
         </div>
     </div>
 
-    <!-- 3. KHU TRÒ CHƠI (SIÊU NHIỀU GAME) -->
+    <!-- ================= 3. KHU GAME (8 TRÒ CHƠI) ================= -->
     <div id="screen-games" class="screen">
-        <h1>🎮 Vũ Trụ Giải Trí</h1>
+        <h1 style="font-size: 2.2rem;">🎮 Tổ Hợp Giải Trí</h1>
         <div id="game-list">
-            <div class="card"><h3>🎁 Gacha Nhân Phẩm (NEW)</h3><p>Thử vận may xem bạn rút được cái gì?</p><button class="btn" style="background: linear-gradient(45deg, #ffd700, #ff8c00);" onclick="openGame('gacha')">Quay Rương Ngay</button></div>
-            <div class="card"><h3>🃏 Lật Thẻ Trí Nhớ (NEW)</h3><p>Tìm các cặp thẻ giống nhau siêu tốc.</p><button class="btn btn-game" onclick="openGame('memory')">Lật Thẻ</button></div>
-            <div class="grid-2">
-                <div class="card" style="padding:15px"><h4>🐸 Bắt Nọc</h4><button class="btn" style="font-size:0.9rem" onclick="openGame('nocnoc')">Chơi</button></div>
-                <div class="card" style="padding:15px"><h4>🧊 Đập Băng</h4><button class="btn btn-secondary" style="font-size:0.9rem" onclick="openGame('ice')">Chém</button></div>
-                <div class="card" style="padding:15px"><h4>🧠 Soi IQ</h4><button class="btn btn-secondary" style="font-size:0.9rem" onclick="openGame('iq')">Thử</button></div>
-                <div class="card" style="padding:15px"><h4>📏 Đoán Cao</h4><button class="btn btn-secondary" style="font-size:0.9rem" onclick="openGame('height')">Soi</button></div>
+            <!-- Game Mới Nhất -->
+            <div class="card" style="border-color: #ffd700; box-shadow: 0 0 20px rgba(255,215,0,0.2);">
+                <h3 style="color:#ffd700">🎁 Gacha Nhân Phẩm</h3>
+                <p>Tiêu 50 XP để thử vận may nhận Nọc Nọc Hoàng Kim.</p>
+                <button class="btn" style="background: linear-gradient(135deg, #ffd700, #ff8c00);" onclick="openGame('gacha')">Quay Rương Xịn</button>
             </div>
-            <div class="card"><h3>🎲 Truth or Dare 7A7</h3><p>Thách đứa bàn bên dám chơi không?</p><button class="btn" style="background: linear-gradient(45deg, #9b59b6, #8e44ad);" onclick="openGame('tod')">Chơi Với Nhóm</button></div>
+            <div class="card" style="border-color: #00ff7f;">
+                <h3 style="color:#00ff7f">⭕❌ Cờ Caro 7A7 (MỚI)</h3>
+                <p>Khắc não với máy tính thông minh.</p>
+                <button class="btn" style="background: linear-gradient(135deg, #00ff7f, #008080);" onclick="openGame('tictac')">Quyết Đấu</button>
+            </div>
+            
+            <!-- Game Lưới 2 Cột -->
+            <div class="grid-2">
+                <div class="card" style="padding:15px; text-align:center;">
+                    <h4 style="font-size:1.1rem">🃏 Lật Thẻ</h4><p style="font-size:0.8rem">Luyện trí nhớ</p>
+                    <button class="btn btn-game" style="font-size:0.9rem; padding:10px;" onclick="openGame('memory')">Chơi</button>
+                </div>
+                <div class="card" style="padding:15px; text-align:center;">
+                    <h4 style="font-size:1.1rem">🐸 Bắt Nọc</h4><p style="font-size:0.8rem">Nhanh tay</p>
+                    <button class="btn" style="font-size:0.9rem; padding:10px;" onclick="openGame('nocnoc')">Vợt</button>
+                </div>
+                <div class="card" style="padding:15px; text-align:center;">
+                    <h4 style="font-size:1.1rem">🧊 Đập Băng</h4><p style="font-size:0.8rem">Xả stress</p>
+                    <button class="btn btn-secondary" style="font-size:0.9rem; padding:10px;" onclick="openGame('ice')">Chém</button>
+                </div>
+                <div class="card" style="padding:15px; text-align:center;">
+                    <h4 style="font-size:1.1rem">🧠 Soi IQ</h4><p style="font-size:0.8rem">Của Hoài Bảo</p>
+                    <button class="btn btn-secondary" style="font-size:0.9rem; padding:10px;" onclick="openGame('iq')">Thử</button>
+                </div>
+            </div>
+            
+            <!-- Truth or dare & Chieu cao-->
+            <div class="card" style="border-color: #9b59b6;">
+                <h3 style="color:#9b59b6">🎲 Truth or Dare Học Đường</h3>
+                <p>Rủ bọn bạn trong lớp cùng chơi cho cháy.</p>
+                <button class="btn" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);" onclick="openGame('tod')">Chơi Nhóm</button>
+            </div>
+            <div class="card text-center">
+                <h3>📏 Máy Quét Chiều Cao</h3>
+                <button class="btn btn-secondary" onclick="openGame('height')">Bật Máy Quét</button>
+            </div>
         </div>
 
-        <!-- GAME GACHA -->
+        <!-- ================= UI CÁC GAME BÊN TRONG ================= -->
+        
+        <!-- UI Gacha -->
         <div id="ui-gacha" class="card text-center hidden">
-            <h3 style="color:var(--gold)">Rương Nhân Phẩm 7A7</h3>
-            <p>Mỗi lần quay tốn 50 XP. Chơi không?</p>
+            <h2 style="color:var(--gold)">Rương Báu 7A7</h2>
+            <p style="font-size:1.1rem">Vé Quay: <strong style="color:var(--accent)">50 XP / Lượt</strong></p>
             <div id="gacha-box" class="gacha-box" onclick="rollGacha()"></div>
-            <div id="gacha-res" class="gacha-res">Bấm vô rương để quay!</div>
-            <button class="btn btn-secondary mt-2" onclick="closeGame()">Thoát</button>
+            <div id="gacha-res" class="gacha-res">Bấm vô viên đá để vận công!</div>
+            <button class="btn btn-secondary mt-2" onclick="closeGame()">Thoát Khỏi Mộng Tưởng</button>
         </div>
 
-        <!-- GAME MEMORY -->
+        <!-- UI Tic Tac Toe -->
+        <div id="ui-tictac" class="card text-center hidden">
+            <h2 style="color:#00ff7f">Cờ Caro Đại Chiến</h2>
+            <p>Bạn là <strong style="color:var(--accent)">X</strong>. Máy là <strong style="color:var(--secondary)">O</strong></p>
+            <div class="tictac-grid" id="tictac-board">
+                <div class="tictac-cell" onclick="ttMove(0)"></div><div class="tictac-cell" onclick="ttMove(1)"></div><div class="tictac-cell" onclick="ttMove(2)"></div>
+                <div class="tictac-cell" onclick="ttMove(3)"></div><div class="tictac-cell" onclick="ttMove(4)"></div><div class="tictac-cell" onclick="ttMove(5)"></div>
+                <div class="tictac-cell" onclick="ttMove(6)"></div><div class="tictac-cell" onclick="ttMove(7)"></div><div class="tictac-cell" onclick="ttMove(8)"></div>
+            </div>
+            <h3 id="tt-status" style="color:var(--gold); height: 30px;"></h3>
+            <button class="btn btn-game mt-2" onclick="ttReset()">Chơi Lại ván mới</button>
+            <button class="btn btn-secondary" onclick="closeGame()">Đầu Hàng</button>
+        </div>
+
+        <!-- UI Memory -->
         <div id="ui-memory" class="card text-center hidden">
-            <h3>Ghép Cặp Siêu Nhớ</h3>
-            <p>Điểm: <strong id="sc-mem" style="color:var(--secondary)">0</strong></p>
+            <h2>Ghép Cặp Trí Nhớ</h2>
+            <p style="font-size:1.2rem">Chuỗi: <strong id="sc-mem" style="color:var(--secondary)">0</strong></p>
             <div class="memory-grid" id="mem-grid"></div>
-            <button class="btn btn-game mt-2" id="btn-mem" onclick="startMemory()">Bắt Đầu Phân Phát Thẻ</button>
+            <button class="btn btn-game mt-2" id="btn-mem" onclick="startMemory()">Phát Thẻ Bắt Đầu</button>
             <button class="btn btn-secondary mt-2" onclick="closeGame()">Thoát</button>
         </div>
 
-        <!-- TRUTH OR DARE -->
+        <!-- UI Nọc Nọc -->
+        <div id="ui-nocnoc" class="card hidden text-center">
+            <h2>Bắt Nọc Nọc</h2>
+            <p style="font-size:1.5rem">Điểm: <strong id="sc-noc" style="color:var(--noc-noc-glow)">0</strong></p>
+            <div class="game-board" onclick="missClick()">
+                <img src="image_c092a2.jpg" id="tg-noc" class="target-img" onmousedown="catchTgt(event,'noc')" ontouchstart="catchTgt(event,'noc')">
+            </div>
+            <button class="btn mt-2" id="btn-noc" onclick="startGame('noc')" style="font-size:1.2rem">Bắt đầu (30s)</button>
+            <button class="btn btn-secondary" onclick="closeGame()">Thoát</button>
+        </div>
+
+        <!-- UI Ice -->
+        <div id="ui-ice" class="card hidden text-center">
+            <h2>Chém Băng Xả Giận</h2>
+            <p style="font-size:1.5rem">Chém: <strong id="sc-ice" style="color:var(--secondary)">0</strong></p>
+            <div class="game-board" style="background: radial-gradient(circle, #001f3f, #000);" onclick="missClick()">
+                <img src="505817c91703fff0d8b2eb48567c3ecd.jpg" id="tg-ice" class="target-img" style="border:3px solid #00ffff;" onmousedown="catchTgt(event,'ice')" ontouchstart="catchTgt(event,'ice')">
+            </div>
+            <button class="btn btn-game mt-2" id="btn-ice" onclick="startGame('ice')" style="font-size:1.2rem">Rút Kiếm!</button>
+            <button class="btn btn-secondary" onclick="closeGame()">Thoát</button>
+        </div>
+
+        <!-- UI IQ -->
+        <div id="ui-iq" class="card text-center hidden">
+            <h2 style="color:#9b59b6">Máy Soi IQ Hoài Bảo</h2>
+            <input type="number" id="iq-val" class="input-box" placeholder="Nhập một con số...">
+            <button class="btn" style="background:#9b59b6" onclick="checkIQ()">Quét Chỉ Số</button>
+            <img src="0155c80495e6bb3a87a20879d9757dd1.jpg" id="img-hb" style="width:180px; display:none; margin:15px auto; border-radius:20px; animation: shake 0.3s infinite; box-shadow: 0 0 40px #9b59b6;">
+            <h3 id="res-iq" class="mt-2" style="color:var(--accent); min-height:60px;"></h3>
+            <button class="btn btn-secondary mt-2" onclick="closeGame()">Sợ Quá Trốn Thôi</button>
+        </div>
+
+        <!-- UI Height -->
+        <div id="ui-height" class="card text-center hidden">
+            <h2 style="color:var(--secondary)">Cân Đo Điện Tử</h2>
+            <input type="text" id="ht-name" class="input-box" placeholder="Nhập họ tên...">
+            <button class="btn" onclick="checkHeight()">Soi Chiều Cao Thực</button>
+            <h2 id="res-ht" class="mt-2" style="color:var(--gold); padding: 20px 0; font-size: 2rem;"></h2>
+            <button class="btn btn-secondary mt-2" onclick="closeGame()">Cất Cân</button>
+        </div>
+
+        <!-- UI Truth or Dare -->
         <div id="ui-tod" class="card text-center hidden">
-            <h3 style="color:#9b59b6">Truth or Dare - Bản Học Đường</h3>
-            <div id="tod-res" style="background:rgba(255,255,255,0.1); padding:20px; border-radius:15px; margin: 15px 0; min-height: 100px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:bold;">
-                Chọn Thật thà hay Thách thức?
+            <h2 style="color:#e74c3c">Trò Chơi Nhân Phẩm Nhóm</h2>
+            <div id="tod-res" style="background:rgba(255,255,255,0.05); padding:30px; border-radius:20px; border:2px dashed #fff; margin: 20px 0; min-height: 150px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:bold; color:#fff;">
+                Đến lượt ai? Chọn đi!
             </div>
             <div class="grid-2">
-                <button class="btn" style="background:#2ecc71" onclick="rollToD('truth')">🗣️ Sự Thật</button>
-                <button class="btn" style="background:#e74c3c" onclick="rollToD('dare')">🔥 Thách Đố</button>
+                <button class="btn" style="background:#2ecc71; padding: 20px; font-size:1.2rem;" onclick="rollToD('truth')">🗣️ THẬT</button>
+                <button class="btn" style="background:#e74c3c; padding: 20px; font-size:1.2rem;" onclick="rollToD('dare')">🔥 THÁCH</button>
             </div>
-            <button class="btn btn-secondary mt-2" onclick="closeGame()">Thoát</button>
+            <button class="btn btn-secondary mt-2" onclick="closeGame()">Giải Tán</button>
         </div>
-
-        <!-- GIỮ NGUYÊN CÁC GAME CŨ BÊN TRONG -->
-        <div id="ui-nocnoc" class="card hidden"><h3>Bắt Nọc Nọc</h3><p>Điểm: <strong id="sc-noc">0</strong></p><div class="game-board" onclick="missClick()"><img src="image_c092a2.jpg" id="tg-noc" class="target-img" onmousedown="catchTgt(event,'noc')" ontouchstart="catchTgt(event,'noc')"></div><button class="btn mt-2" id="btn-noc" onclick="startGame('noc')">Bắt đầu 30s</button><button class="btn btn-secondary" onclick="closeGame()">Thoát</button></div>
-        <div id="ui-ice" class="card hidden"><h3>Đập Băng</h3><p>Điểm: <strong id="sc-ice">0</strong></p><div class="game-board" style="background:#001f3f;" onclick="missClick()"><img src="505817c91703fff0d8b2eb48567c3ecd.jpg" id="tg-ice" class="target-img" style="border:2px solid #00f5d4;" onmousedown="catchTgt(event,'ice')" ontouchstart="catchTgt(event,'ice')"></div><button class="btn btn-game mt-2" id="btn-ice" onclick="startGame('ice')">Chém!</button><button class="btn btn-secondary" onclick="closeGame()">Thoát</button></div>
-        <div id="ui-iq" class="card text-center hidden"><h3>IQ Hoài Bảo</h3><input type="number" id="iq-val" class="input-box" placeholder="Đoán IQ..."><button class="btn btn-secondary" onclick="checkIQ()">Đoán</button><img src="0155c80495e6bb3a87a20879d9757dd1.jpg" id="img-hb" style="width:150px; display:none; margin:10px auto; border-radius:15px; animation: shake 0.5s infinite;"><h3 id="res-iq" class="mt-2" style="color:var(--accent)"></h3><button class="btn mt-2" onclick="closeGame()">Thoát</button></div>
-        <div id="ui-height" class="card text-center hidden"><h3>Soi Chiều Cao</h3><input type="text" id="ht-name" class="input-box" placeholder="Tên..."><button class="btn btn-secondary" onclick="checkHeight()">Soi</button><h2 id="res-ht" class="mt-2" style="color:var(--secondary)"></h2><button class="btn mt-2" onclick="closeGame()">Thoát</button></div>
     </div>
 
-    <!-- 4. CHILL -->
+    <!-- ================= 4. GÓC CHILL ================= -->
     <div id="screen-chill" class="screen">
-        <h1 style="text-shadow: 0 0 20px #fff;">🌿 Góc Chill Torii</h1>
-        <div class="card glass-card text-center">
-            <button id="music-btn" class="btn" style="background: rgba(0,0,0,0.5); border: 1px solid #fff;" onclick="toggleBGM()">🎵 Bật Nhạc Lofi</button>
-            <h3 class="mt-2" style="color:#fff">Đồng Hồ Cà Chua (Pomodoro)</h3>
-            <p id="pomo-txt" style="font-size: 4rem; font-weight: 900; color: #fff; text-shadow: 0 0 20px var(--secondary);">25:00</p>
+        <h1 style="text-shadow: 0 0 20px #fff; font-size:2.5rem; letter-spacing: 3px;">🌿 GÓC YÊN BÌNH</h1>
+        
+        <div class="card glass-card text-center" style="border-color:var(--secondary)">
+            <h3 style="color:#fff">🎶 Âm Thanh Trị Liệu</h3>
             <div class="grid-2">
-                <button class="btn" onclick="startPomo()">Bắt Đầu</button>
-                <button class="btn btn-secondary" onclick="resetPomo()">Dừng</button>
+                <button id="music-btn" class="btn" style="background: rgba(255,255,255,0.2); border: 1px solid #fff;" onclick="toggleBGM()">🎵 Bật Nhạc Lofi</button>
+                <button id="rain-btn" class="btn" style="background: rgba(0, 191, 255, 0.3); border: 1px solid #00bfff;" onclick="toggleRain()">🌧️ Tiếng Mưa Rơi</button>
+            </div>
+        </div>
+
+        <div class="card glass-card text-center">
+            <h3 style="color:#fff">🍅 Cà Chua Học Tập (Pomodoro)</h3>
+            <p id="pomo-txt" style="font-size: 5rem; font-weight: 900; color: #fff; text-shadow: 0 0 30px var(--secondary); margin: 10px 0;">25:00</p>
+            <div class="grid-2">
+                <button class="btn" onclick="startPomo()" style="background:var(--secondary); color:#000;">Bắt Đầu Tập Trung</button>
+                <button class="btn btn-secondary" onclick="resetPomo()">Dừng Lại</button>
+            </div>
+        </div>
+
+        <div class="card glass-card text-center" style="border-color:var(--accent)">
+            <h3 style="color:var(--accent)">🧘‍♂️ Góc Thiền Địn / Tập Thở</h3>
+            <p style="color:#ddd; font-style:italic">Làm theo nhịp điệu của vòng tròn để giảm stress.</p>
+            <div id="breathe-circle" class="breathe-circle">Hít Vào...</div>
+            <button class="btn" style="background:var(--accent)" onclick="startBreathe()">Bắt Đầu Bài Tập 1 Phút</button>
+        </div>
+    </div>
+
+    <!-- ================= 5. CỬA HÀNG (SHOP) ================= -->
+    <div id="screen-shop" class="screen">
+        <h1 style="font-size: 2.2rem;">🛒 Chợ Đen 7A7</h1>
+        <div class="card text-center" style="background:rgba(255,170,0,0.1); border-color:var(--gold);">
+            <h3>Túi Tiền: <span id="shop-xp" style="color:var(--gold); font-size:2rem;">0</span> XP</h3>
+            <p>Kiếm XP bằng cách học bài hoặc chơi game!</p>
+        </div>
+        <div class="card">
+            <h3>Vật Phẩm Hữu Hình</h3>
+            <div class="shop-item">
+                <div><h4>Danh hiệu "Đại Gia"</h4><p style="font-size:0.8rem; color:#aaa;">Hiển thị màu đỏ</p></div>
+                <button class="btn" style="width:100px; margin:0;" onclick="buyItem('Đại Gia', 1000)">1000 XP</button>
+            </div>
+            <div class="shop-item">
+                <div><h4>Thẻ Giải Xui</h4><p style="font-size:0.8rem; color:#aaa;">Xóa 1 điểm kém</p></div>
+                <button class="btn" style="width:100px; margin:0; background:var(--secondary); color:#000" onclick="buyItem('Thẻ Giải Xui', 500)">500 XP</button>
+            </div>
+            <div class="shop-item">
+                <div><h4>Bùa Trí Tuệ</h4><p style="font-size:0.8rem; color:#aaa;">Học bài bao vào</p></div>
+                <button class="btn" style="width:100px; margin:0; background:var(--primary);" onclick="buyItem('Bùa Trí Tuệ', 300)">300 XP</button>
+            </div>
+        </div>
+        <div class="card">
+            <h3 style="color:var(--secondary)">Kho Đồ Của Bạn</h3>
+            <div id="inventory-list" style="color:var(--gold); font-weight:bold; line-height: 1.8;">Trống trơn... Mua đồ đi ní!</div>
+        </div>
+    </div>
+
+    <!-- ================= 6. NHẬT KÝ ================= -->
+    <div id="screen-diary" class="screen">
+        <h1 style="font-size: 2.2rem;">📝 Góc Bí Mật</h1>
+        <div class="card">
+            <p class="mb-2">Ghi lại chuyện thầm kín ở lớp, drama, hoặc note học tập. Chỉ lưu trên máy bạn!</p>
+            <textarea id="diary-input" class="input-box" rows="4" style="text-align:left; resize:none;" placeholder="Hôm nay có biến gì không..."></textarea>
+            <button class="btn" onclick="saveDiary()">Lưu Bút Tích</button>
+        </div>
+        <div class="card">
+            <h3 style="color:var(--secondary); border-bottom:1px solid #333; padding-bottom:10px;">Cuốn Sổ Cũ</h3>
+            <div id="diary-list">
+                <!-- Nội dung nhật ký -->
             </div>
         </div>
     </div>
 
-    <!-- 5. CUP -->
+    <!-- ================= 7. BẢNG VÀNG ================= -->
     <div id="screen-trophy" class="screen">
-        <h1>🏆 Đại Sảnh Danh Vọng</h1>
+        <h1 style="font-size: 2.5rem;">🏆 Đại Sảnh Danh Vọng</h1>
+        <div class="card text-center" style="background: radial-gradient(circle, rgba(255,215,0,0.2), transparent); border-color: var(--gold);">
+            <p style="font-size:1.2rem; margin-bottom:5px;">Cấp Độ Hiện Tại</p>
+            <h2 id="rank-name" style="color:var(--gold); text-transform:uppercase; font-size: 2.5rem; text-shadow: 0 0 20px var(--gold);">Tân Binh</h2>
+            <div style="width: 100%; height: 10px; background: #333; border-radius: 5px; margin-top: 15px; overflow: hidden;">
+                <div id="xp-bar" style="height: 100%; width: 5%; background: var(--gold); transition: 1s;"></div>
+            </div>
+            <p class="mt-2" style="font-size:0.9rem; color:#aaa;">Cày thêm XP để thăng hạng!</p>
+        </div>
         <div class="card">
-            <h2 id="rank-name" style="color:var(--gold); text-transform:uppercase; font-size: 2rem;">Tân Binh</h2>
-            <p class="text-center mb-2">Cần 1000 XP để lên cấp</p>
-            <div class="stat-box"><span>📚 Số câu học tập đúng:</span> <span id="t-study">0</span></div>
-            <div class="stat-box"><span>🐸 Bé Nọc Nọc đã tóm:</span> <span id="t-noc">0</span></div>
-            <div class="stat-box"><span>🧊 Mặt Băng đã chém:</span> <span id="t-ice">0</span></div>
-            <div class="stat-box"><span>🃏 Thẻ bài đã lật:</span> <span id="t-mem">0</span></div>
+            <h3 style="border-bottom: 2px solid var(--secondary); padding-bottom: 10px; margin-bottom: 15px;">Thống Kê Chi Tiết</h3>
+            <div class="stat-box"><span>🎓 Tổng XP Tích Lũy:</span> <span id="t-xp" style="color:var(--gold)">0</span></div>
+            <div class="stat-box"><span>📚 Số Câu Học Đã Trúng:</span> <span id="t-study" style="color:#00ff7f">0</span></div>
+            <div class="stat-box"><span>🐸 Bé Nọc Đã Vào Tròng:</span> <span id="t-noc" style="color:var(--noc-noc-glow)">0</span></div>
+            <div class="stat-box"><span>🧊 Khối Băng Đã Chém:</span> <span id="t-ice" style="color:var(--secondary)">0</span></div>
+            <div class="stat-box"><span>🃏 Thẻ Nhớ Đã Lật:</span> <span id="t-mem" style="color:var(--accent)">0</span></div>
         </div>
     </div>
 
+    <!-- ================= 8. CÀI ĐẶT ================= -->
+    <div id="screen-settings" class="screen">
+        <h1 style="font-size: 2.2rem;">⚙️ Thiết Lập Trạm</h1>
+        <div class="card">
+            <h3>Hệ Thống Phím Cứng</h3>
+            <button class="btn btn-secondary" onclick="alert('Tính năng đổi giao diện đang bảo trì để tránh hỏng ma trận.')">🎨 Đổi Theme (Khóa)</button>
+            <button class="btn" style="background: red; box-shadow: 0 0 20px red;" onclick="resetAllData()">🗑️ Xóa Sạch Dữ Liệu (Reset Game)</button>
+        </div>
+        <div class="card text-center">
+            <h3 style="color:var(--secondary)">Thông tin phiên bản</h3>
+            <p><strong>NGÔI NHÀ 7A7 ULTIMATE V5.0</strong></p>
+            <p style="font-size:0.8rem; color:#aaa; margin-top:10px;">Dev by AI. Designed for 7A7.<br>All rights reserved 2026.</p>
+        </div>
+    </div>
+
+    <!-- ================= THANH ĐIỀU HƯỚNG BOTTOM ================= -->
     <nav class="bottom-nav">
         <div class="nav-btn active" onclick="switchTab('screen-home', 0)">🏠<span>Trang chủ</span></div>
         <div class="nav-btn" onclick="switchTab('screen-study', 1)">📚<span>Học</span></div>
         <div class="nav-btn" onclick="switchTab('screen-games', 2)">🎮<span>Game</span></div>
         <div class="nav-btn" onclick="switchTab('screen-chill', 3)">🌿<span>Chill</span></div>
-        <div class="nav-btn" onclick="switchTab('screen-trophy', 4)">🏆<span>Tài khoản</span></div>
+        <div class="nav-btn" onclick="switchTab('screen-shop', 4)">🛒<span>Chợ</span></div>
+        <div class="nav-btn" onclick="switchTab('screen-diary', 5)">📝<span>Ghi chú</span></div>
+        <div class="nav-btn" onclick="switchTab('screen-trophy', 6)">🏆<span>Cup</span></div>
+        <div class="nav-btn" onclick="switchTab('screen-settings', 7)">⚙️<span>Cài đặt</span></div>
     </nav>
 
+    <!-- ================= VÙNG CHỨA JAVASCRIPT XỬ LÝ TOÀN BỘ LOGIC ================= -->
     <script>
-        // --- CORE SYSTEM: SOUND, TOAST, XP ---
+        // --- 1. CORE SYSTEM (AUDIO, TOAST, CLICK EFFECT) ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSfx(type) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            if(type === 'hit') { osc.type='square'; osc.frequency.setValueAtTime(300, audioCtx.currentTime); gain.gain.setValueAtTime(0.3, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime+0.1); osc.start(); osc.stop(audioCtx.currentTime+0.1); }
-            if(type === 'coin') { osc.type='sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime); osc.frequency.setValueAtTime(1200, audioCtx.currentTime+0.1); gain.gain.setValueAtTime(0.3, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime+0.3); osc.start(); osc.stop(audioCtx.currentTime+0.3); }
+            
+            if(type === 'hit') { osc.type='square'; osc.frequency.setValueAtTime(400, audioCtx.currentTime); gain.gain.setValueAtTime(0.3, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime+0.1); osc.start(); osc.stop(audioCtx.currentTime+0.1); }
+            if(type === 'coin') { osc.type='sine'; osc.frequency.setValueAtTime(1000, audioCtx.currentTime); osc.frequency.setValueAtTime(1500, audioCtx.currentTime+0.1); gain.gain.setValueAtTime(0.4, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime+0.3); osc.start(); osc.stop(audioCtx.currentTime+0.3); }
             if(type === 'wrong') { osc.type='sawtooth'; osc.frequency.setValueAtTime(150, audioCtx.currentTime); gain.gain.setValueAtTime(0.3, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime+0.3); osc.start(); osc.stop(audioCtx.currentTime+0.3); }
+            if(type === 'buy') { osc.type='triangle'; osc.frequency.setValueAtTime(600, audioCtx.currentTime); osc.frequency.setValueAtTime(800, audioCtx.currentTime+0.2); gain.gain.setValueAtTime(0.5, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+0.5); osc.start(); osc.stop(audioCtx.currentTime+0.5); }
         }
 
-        let isMusic = false;
+        let isMusic = false, isRain = false;
         function toggleBGM() {
             let bgm = document.getElementById('bgm-audio'); let btn = document.getElementById('music-btn');
-            if(isMusic) { bgm.pause(); btn.innerText="🎵 Bật Nhạc Lofi"; } else { bgm.play(); btn.innerText="🔇 Tắt Nhạc"; bgm.volume = 0.5; }
+            if(isMusic) { bgm.pause(); btn.innerText="🎵 Bật Nhạc Lofi"; btn.style.background="rgba(255,255,255,0.2)";} 
+            else { bgm.play(); btn.innerText="🔇 Tắt Nhạc"; bgm.volume = 0.6; btn.style.background="var(--primary)";}
             isMusic = !isMusic;
         }
-
-        function showToast(msg) {
-            let t = document.createElement('div'); t.className = 'toast'; t.innerText = msg;
-            document.getElementById('toast-container').appendChild(t);
-            setTimeout(() => t.remove(), 3000);
+        function toggleRain() {
+            let rain = document.getElementById('rain-audio'); let btn = document.getElementById('rain-btn');
+            if(isRain) { rain.pause(); btn.innerText="🌧️ Bật Tiếng Mưa"; btn.style.background="rgba(0, 191, 255, 0.3)";} 
+            else { rain.play(); btn.innerText="🌤️ Tắt Tiếng Mưa"; rain.volume = 0.5; btn.style.background="#00bfff";}
+            isRain = !isRain;
         }
 
-        let sysData = JSON.parse(localStorage.getItem('7a7_v4')) || { xp: 0, noc: 0, ice: 0, study: 0, mem: 0 };
+        function showToast(msg, isAlert=false) {
+            let t = document.createElement('div'); t.className = 'toast'; 
+            if(isAlert) t.style.background = "linear-gradient(90deg, #ff007f, #ff0000)";
+            t.innerText = msg; document.getElementById('toast-container').appendChild(t);
+            setTimeout(() => t.remove(), 3500);
+        }
+
+        function createClickEffect(e) {
+            let div = document.createElement('div'); div.className = 'click-effect';
+            div.style.left = e.clientX + 'px'; div.style.top = e.clientY + 'px';
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 500);
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        // --- 2. DATA MANAGEMENT (LOCALSTORAGE TỔNG) ---
+        let sysData = JSON.parse(localStorage.getItem('7a7_v5')) || { 
+            xp: 0, noc: 0, ice: 0, study: 0, mem: 0, items: [], diary: []
+        };
+        
         function addXP(amt) {
-            sysData.xp += amt;
-            saveData();
-            showToast(`✨ Nhận được +${amt} XP!`);
+            sysData.xp += amt; saveData();
+            showToast(`✨ Chúc Mừng! Nhận được +${amt} XP!`);
+            playSfx('coin');
         }
         function saveData() {
-            localStorage.setItem('7a7_v4', JSON.stringify(sysData));
+            localStorage.setItem('7a7_v5', JSON.stringify(sysData));
+            updateAllUI();
+        }
+        function updateAllUI() {
             document.getElementById('home-xp').innerText = sysData.xp;
+            document.getElementById('shop-xp').innerText = sysData.xp;
+            document.getElementById('t-xp').innerText = sysData.xp;
             document.getElementById('home-nocnoc').innerText = sysData.noc;
             document.getElementById('t-study').innerText = sysData.study;
             document.getElementById('t-noc').innerText = sysData.noc;
             document.getElementById('t-ice').innerText = sysData.ice;
             document.getElementById('t-mem').innerText = sysData.mem;
             
-            let rank = "Tân Binh";
-            if(sysData.xp >= 500) rank = "Cao Thủ"; if(sysData.xp >= 1500) rank = "Học Bá"; if(sysData.xp >= 5000) rank = "Huyền Thoại 7A7";
+            // Xếp hạng
+            let rank = "Tân Binh 🐣"; let progress = (sysData.xp / 1000) * 100;
+            if(sysData.xp >= 1000) { rank = "Cao Thủ ⚔️"; progress = ((sysData.xp-1000) / 4000) * 100; }
+            if(sysData.xp >= 5000) { rank = "Học Bá 👑"; progress = ((sysData.xp-5000) / 5000) * 100; }
+            if(sysData.xp >= 10000) { rank = "Huyền Thoại 7A7 🐉"; progress = 100; }
             document.getElementById('rank-name').innerText = rank;
-        }
-        saveData(); // Init load
+            document.getElementById('xp-bar').style.width = Math.min(progress, 100) + '%';
 
-        // --- ĐIỀU HƯỚNG ---
+            // Kho đồ
+            let inv = document.getElementById('inventory-list');
+            if(sysData.items.length === 0) inv.innerHTML = "Trống trơn... Mua đồ đi ní!";
+            else inv.innerHTML = sysData.items.map(i => `✔️ ${i}`).join('<br>');
+        }
+        updateAllUI(); // Load lần đầu
+
+        function resetAllData() {
+            if(confirm("CẢNH BÁO ĐỎ: Xóa toàn bộ dữ liệu, cày lại từ con số 0. Chắc chưa?")) {
+                localStorage.removeItem('7a7_v5'); location.reload();
+            }
+        }
+
+        // --- 3. ĐIỀU HƯỚNG TAB ---
         function switchTab(id, idx) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+            
+            let btn = document.querySelectorAll('.nav-btn')[idx];
+            btn.classList.add('active');
+            
+            // Tự động cuộn thanh nav cho btn nằm giữa
+            btn.scrollIntoView({ behavior: 'smooth', inline: 'center' });
             closeGame();
-            if(audioCtx.state === 'suspended') audioCtx.resume(); // Trick mồi âm thanh
+            if(id === 'screen-diary') renderDiary(); // Load nhật ký
         }
 
-        // ================= HỌC TẬP (DATA LỚN) =================
+        // ================= 4. HỌC TẬP MODULE =================
         const qBank = {
             'Toán': {
-                'Dễ': [{q:"Kết quả của 7 + 5 x 2 là?", o:["24","17","19","12"], a:1}, {q:"Tập hợp số hữu tỉ kí hiệu là gì?", o:["N","Z","Q","R"], a:2}],
-                'TB': [{q:"Giá trị tuyệt đối của -15 là?", o:["-15","15","0","Không xác định"], a:1}, {q:"Hai góc kề bù có tổng số đo bằng?", o:["90 độ","180 độ","360 độ","100 độ"], a:1}],
-                'Khó': [{q:"Trong tam giác vuông, bình phương cạnh huyền bằng?", o:["Tổng 2 cạnh góc vuông","Tích 2 cạnh góc vuông","Tổng bình phương 2 cạnh góc vuông","Hiệu 2 cạnh"], a:2}],
-                'SiêuKhó': [{q:"Tiên đề Euclid nói về điều gì?", o:["Đường thẳng song song","Góc vuông","Đường tròn tâm O","Tam giác đều"], a:0}]
+                'Dễ': [{q:"Căn bậc hai số học của 16 là?", o:["4","-4","8","256"], a:0}, {q:"Góc bẹt có số đo là?", o:["90","180","360","0"], a:1}],
+                'TB': [{q:"Đại lượng y tỉ lệ thuận với x theo hệ số k=2. Nếu x=5 thì y=?", o:["2.5","10","7","3"], a:1}],
+                'Khó': [{q:"Cho tam giác ABC cân tại A, góc A = 50 độ. Góc B bằng?", o:["50","65","130","80"], a:1}],
+                'SiêuKhó': [{q:"Tổng ba góc ngoài của một tam giác là?", o:["180 độ","360 độ","90 độ","Chưa xác định"], a:1}]
             },
             'Văn': {
-                'Dễ': [{q:"'Nam quốc sơn hà' được xem là gì của nước ta?", o:["Bản tuyên ngôn độc lập đầu tiên","Bài thơ hay nhất","Bài hát ru","Văn bản luật"], a:0}],
-                'TB': [{q:"Tác giả bài 'Qua Đèo Ngang' là ai?", o:["Hồ Xuân Hương","Bà Huyện Thanh Quan","Nguyễn Du","Đoàn Thị Điểm"], a:1}],
-                'Khó': [{q:"Biện pháp tu từ nào dùng từ ngữ gợi hình, gợi thanh?", o:["So sánh","Nhân hóa","Từ láy","Hoán dụ"], a:2}]
+                'Dễ': [{q:"Thơ Đường luật thất ngôn bát cú có mấy câu?", o:["4","7","8","9"], a:2}],
+                'TB': [{q:"'Sông núi nước Nam vua Nam ở' là bản dịch của?", o:["Nam quốc sơn hà","Bình Ngô đại cáo","Hịch tướng sĩ","Phú sông Bạch Đằng"], a:0}],
+                'Khó': [{q:"Thành ngữ 'Ếch ngồi đáy giếng' ngụ ý gì?", o:["Cảnh sát quan sát","Hiểu biết cạn hẹp mà huênh hoang","Động vật lưỡng cư","Môi trường chật hẹp"], a:1}]
             },
             'Anh': {
-                'Dễ': [{q:"Quá khứ của từ 'GO' là?", o:["Goes","Went","Gone","Going"], a:1}],
-                'TB': [{q:"He usually ___ to school by bike.", o:["go","going","goes","to go"], a:2}]
+                'Dễ': [{q:"Động từ 'To be' đi với 'He' ở hiện tại là?", o:["Am","Is","Are","Be"], a:1}],
+                'TB': [{q:"She ___ watching TV at the moment.", o:["is","are","was","were"], a:0}]
             },
             'KHTN': {
-                'Dễ': [{q:"Ký hiệu hóa học của Oxi là?", o:["O","Ox","H","C"], a:0}],
-                'TB': [{q:"Vận tốc ánh sáng trong chân không xấp xỉ?", o:["300.000 km/s","1000 km/h","340 m/s","Không đo được"], a:0}],
-                'Khó': [{q:"Hạt nhân nguyên tử gồm những hạt nào?", o:["Proton và Electron","Proton và Neutron","Chỉ có Neutron","Chỉ có Proton"], a:1}]
+                'Dễ': [{q:"Khí nào duy trì sự cháy?", o:["Nitơ","Oxy","Carbon dioxide","Hidro"], a:1}],
+                'TB': [{q:"Công thức tính khối lượng riêng?", o:["D = m/V","D = V/m","D = m.V","D = P/V"], a:0}],
+                'Khó': [{q:"Tốc độ truyền âm lớn nhất trong môi trường nào?", o:["Chất rắn","Chất lỏng","Chất khí","Chân không"], a:0}]
             },
             'SửĐịa': {
-                'TB': [{q:"Cuộc phát kiến địa lý tìm ra châu Mỹ do ai dẫn đầu?", o:["Magellan","Columbus","Vasco da Gama","Dias"], a:1}]
+                'TB': [{q:"Hệ Mặt Trời có bao nhiêu hành tinh?", o:["7","8","9","10"], a:1}, {q:"Lãnh địa phong kiến là gì?", o:["Vùng đất của vua","Khu vực của nông nô","Vùng đất rộng lớn của lãnh chúa","Thành thị"], a:2}]
             },
             'GDCD': {
-                'Dễ': [{q:"Tôn sư trọng đạo nghĩa là gì?", o:["Tôn trọng thầy cô","Chỉ học lý thuyết","Không làm bài tập","Chỉ nghe lời bố mẹ"], a:0}]
+                'Dễ': [{q:"Khoan dung là gì?", o:["Tha thứ cho người khác","Bắt bẻ lỗi lầm","Che giấu khuyết điểm","Làm ngơ"], a:0}]
             }
         };
 
@@ -334,19 +591,18 @@
         function selectDiff(d) { selDiff=d; document.querySelectorAll("[id^='diff-']").forEach(e=>e.classList.remove('active')); document.getElementById('diff-'+d).classList.add('active'); }
         
         function startQuiz() {
-            if(!selSub || !selDiff) return alert("Chọn đủ môn và độ khó nha ní!");
+            if(!selSub || !selDiff) return showToast("⚠️ Chọn đủ Môn và Độ Khó đã ní!", true);
             let list = qBank[selSub] ? qBank[selSub][selDiff] : null;
-            if(!list || list.length === 0) return alert("Hệ thống đang nạp thêm câu hỏi phần này, chọn môn khác đi ní!");
+            if(!list || list.length === 0) return showToast("⚠️ Đề cương phần này chưa nạp, ráng chờ update nghen!", true);
             
-            // Xáo trộn mảng để thi không bị trùng
-            currentQSet = list.sort(() => 0.5 - Math.random()).slice(0, 5); // Lấy tối đa 5 câu
+            // Xáo trộn và lấy max 5 câu
+            currentQSet = list.sort(() => 0.5 - Math.random()).slice(0, 5); 
             qIdx = 0; qScore = 0;
             
             document.getElementById('study-menu').classList.add('hidden');
             document.getElementById('study-quiz').classList.remove('hidden');
             document.getElementById('study-result').classList.add('hidden');
             document.getElementById('q-title').innerText = `${selSub} - ${selDiff}`;
-            
             loadQ();
         }
 
@@ -362,167 +618,143 @@
         }
 
         function checkQ(ans, correct, el) {
-            if(!document.getElementById('q-next').classList.contains('hidden')) return; // Chống click nhiều lần
+            if(!document.getElementById('q-next').classList.contains('hidden')) return; // Đã trả lời
             let opts = document.querySelectorAll('.quiz-opt');
             if(ans === correct) { 
-                el.classList.add('correct'); 
-                qScore++; 
-                sysData.study++; 
-                playSfx('coin');
-                addXP(10);
+                el.classList.add('correct'); qScore++; sysData.study++; 
+                playSfx('coin'); addXP(15);
             } else { 
-                el.classList.add('wrong'); 
-                opts[correct].classList.add('correct'); 
-                playSfx('wrong');
+                el.classList.add('wrong'); opts[correct].classList.add('correct'); 
+                playSfx('wrong'); showToast("Sai rồi! Rút kinh nghiệm nha.", true);
             }
             document.getElementById('q-next').classList.remove('hidden');
         }
 
         function nextQ() {
             qIdx++;
-            if(qIdx < currentQSet.length) {
-                loadQ();
-            } else {
-                // Hết bài
+            if(qIdx < currentQSet.length) { loadQ(); } 
+            else {
                 document.getElementById('study-quiz').classList.add('hidden');
                 document.getElementById('study-result').classList.remove('hidden');
                 document.getElementById('res-correct').innerText = qScore;
                 
-                let msg = "";
-                if(qScore === currentQSet.length) msg = "Quá đỉnh! Học bá 7A7 chính là bạn!";
-                else if(qScore >= currentQSet.length/2) msg = "Khá lắm, cố gắng tí nữa là max điểm!";
-                else msg = "Sai hơi nhiều nha, nộp sách lại cho Hoài Bảo học phụ đạo liền!";
+                let msg = ""; playSfx('buy');
+                if(qScore === currentQSet.length) msg = "Quá đỉnh! Trí tuệ sánh ngang Hoài Bảo!";
+                else if(qScore >= currentQSet.length/2) msg = "Khá lắm, nhưng vẫn cần luyện thêm.";
+                else msg = "Gà quá! Lát vô lớp nhờ bạn kèm đi!";
                 document.getElementById('res-msg').innerText = msg;
                 saveData();
             }
         }
         function exitQuiz() { document.getElementById('study-quiz').classList.add('hidden'); document.getElementById('study-result').classList.add('hidden'); document.getElementById('study-menu').classList.remove('hidden'); }
 
-        // ================= GACHA NHÂN PHẨM =================
-        const gachaItems = [
-            {n: "Đề Cương Toán Trắng", r: "Cùi", xp: 0, e: "📄"},
-            {n: "Ly Trà Sữa 15k", r: "Bình Thường", xp: 10, e: "🧋"},
-            {n: "100 XP Miễn Phí", r: "Hiếm", xp: 100, e: "✨"},
-            {n: "Cây Bút Bi Của Hoài Bảo", r: "Cực Hiếm", xp: 200, e: "🖊️"},
-            {n: "NỌC NỌC HOÀNG KIM", r: "TRUYỀN THUYẾT", xp: 500, e: "🐸👑"}
-        ];
+
+        // ================= 5. GAME MODULES (8 TRÒ) =================
+        function openGame(g) { document.getElementById('game-list').classList.add('hidden'); document.getElementById('ui-'+g).classList.remove('hidden'); }
+        function closeGame() { 
+            clearInterval(gTimer); 
+            document.getElementById('game-list').classList.remove('hidden'); 
+            document.querySelectorAll("[id^='ui-']").forEach(e=>e.classList.add('hidden')); 
+            document.querySelectorAll('.target-img').forEach(e=>e.style.display='none'); 
+            document.getElementById('img-hb').style.display='none'; 
+            if(document.getElementById('tictac-board')) ttReset(); // Reset cờ caro nếu đang chơi
+        }
+
+        // --- Tic Tac Toe (Cờ Caro Khắc Não Máy) ---
+        let ttBoard = ["","","","","","","","",""], ttActive = true;
+        function ttMove(idx) {
+            if(!ttActive || ttBoard[idx] !== "") return;
+            // Player move
+            ttBoard[idx] = "X"; updateTTUI(); playSfx('hit');
+            if(checkTTWin("X")) { ttEnd("🎉 BẠN ĐÃ THẮNG MÁY! (+50XP)", 50); return; }
+            if(!ttBoard.includes("")) { ttEnd("HÒA NHAU!", 0); return; }
+            
+            // Bot move (Random đơn giản)
+            ttActive = false; document.getElementById('tt-status').innerText = "Máy đang nghĩ...";
+            setTimeout(() => {
+                let emptyOpts = []; ttBoard.forEach((v,i) => { if(v==="") emptyOpts.push(i); });
+                let botIdx = emptyOpts[Math.floor(Math.random() * emptyOpts.length)];
+                ttBoard[botIdx] = "O"; updateTTUI(); playSfx('wrong');
+                if(checkTTWin("O")) { ttEnd("💀 MÁY THẮNG! Gà quá!", 0); return; }
+                if(!ttBoard.includes("")) { ttEnd("HÒA NHAU!", 0); return; }
+                document.getElementById('tt-status').innerText = "Tới lượt bạn!"; ttActive = true;
+            }, 600);
+        }
+        function updateTTUI() {
+            let cells = document.querySelectorAll('.tictac-cell');
+            cells.forEach((c, i) => { 
+                c.innerText = ttBoard[i]; 
+                c.className = "tictac-cell" + (ttBoard[i]==="X"?" x":(ttBoard[i]==="O"?" o":""));
+            });
+        }
+        function checkTTWin(p) {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return wins.some(w => ttBoard[w[0]]===p && ttBoard[w[1]]===p && ttBoard[w[2]]===p);
+        }
+        function ttEnd(msg, xp) { document.getElementById('tt-status').innerText = msg; ttActive = false; if(xp>0) addXP(xp); }
+        function ttReset() { ttBoard = ["","","","","","","","",""]; ttActive = true; updateTTUI(); document.getElementById('tt-status').innerText = ""; }
+
+        // --- Gacha ---
         let isSpinning = false;
         function rollGacha() {
             if(isSpinning) return;
-            if(sysData.xp < 50) return alert("Hết tiền cược rồi ní! Bạn cần 50 XP để quay, qua tab Học Tập kiếm thêm đi!");
+            if(sysData.xp < 50) return showToast("Cần 50 XP để quay! Về học bài cày đi ní!", true);
             
-            sysData.xp -= 50; saveData(); showToast("-50 XP");
-            isSpinning = true;
-            let box = document.getElementById('gacha-box');
-            let res = document.getElementById('gacha-res');
+            sysData.xp -= 50; saveData(); showToast("Đã trừ 50 XP");
+            isSpinning = true; playSfx('coin');
             
-            res.innerText = "Đang quay rương...";
-            box.classList.add('spinning');
-            playSfx('coin');
+            let box = document.getElementById('gacha-box'); let res = document.getElementById('gacha-res');
+            res.innerText = "Đang vận công..."; box.classList.add('spinning');
             
             setTimeout(() => {
-                box.classList.remove('spinning');
-                isSpinning = false;
+                box.classList.remove('spinning'); isSpinning = false; playSfx('buy');
                 
-                // Tỷ lệ quay
-                let rand = Math.random();
-                let item;
-                if(rand < 0.05) item = gachaItems[4]; // 5% Truyền thuyết
-                else if (rand < 0.2) item = gachaItems[3]; // 15% Cực hiếm
-                else if (rand < 0.4) item = gachaItems[2]; // 20% Hiếm
-                else if (rand < 0.7) item = gachaItems[1]; // 30% Bình thường
-                else item = gachaItems[0]; // 30% Cùi bắp
+                let r = Math.random(); let item = {};
+                if(r < 0.05) { item = {n:"NỌC NỌC HOÀNG KIM", xp:1000, c:"var(--gold)"}; } // 5%
+                else if(r < 0.2) { item = {n:"Trà Sữa Full Topping", xp:200, c:"var(--accent)"}; } // 15%
+                else if(r < 0.5) { item = {n:"100 XP Thưởng", xp:100, c:"var(--secondary)"}; } // 30%
+                else { item = {n:"Đề Cương Trắng Kèm Dép", xp:0, c:"#aaa"}; } // 50% rác
                 
-                res.innerHTML = `${item.e} <br> ${item.n} <br> <span style="font-size:1rem; color:#fff">Độ hiếm: ${item.r}</span>`;
-                if(item.xp > 0) {
-                    setTimeout(() => addXP(item.xp), 500);
-                }
-                playSfx('hit');
+                res.innerHTML = `<span style="color:${item.c}">${item.n}</span><br><span style="font-size:1rem; color:#fff">${item.xp>0?'+'+item.xp+' XP':'Khóc đi'}</span>`;
+                if(item.xp > 0) setTimeout(() => addXP(item.xp), 500);
             }, 2000);
         }
 
-        // ================= GAME LẬT THẺ TRÍ NHỚ =================
-        const memEmojis = ['🐸','🧊','🧠','📏','📚','🏆'];
-        let memCards = [], firstCard = null, secondCard = null, lockBoard = false, memMatchCount = 0;
-        
+        // --- Memory ---
+        const memEmojis = ['🐸','🧊','🧠','📏','📚','🏆','🃏','💎'];
+        let memCards = [], fCard = null, sCard = null, lockBd = false, memMatches = 0;
         function startMemory() {
-            document.getElementById('sc-mem').innerText = "0";
-            document.getElementById('btn-mem').innerText = "Trộn Thẻ Bắt Đầu Lại";
-            memMatchCount = 0; sysData.mem++; saveData();
+            document.getElementById('sc-mem').innerText = "0"; document.getElementById('btn-mem').innerText = "Phát Lại Thẻ";
+            memMatches = 0; sysData.mem++; saveData();
+            memCards = [...memEmojis, ...memEmojis].sort(() => 0.5 - Math.random());
             
-            // Nhân đôi và trộn mảng
-            memCards = [...memEmojis, ...memEmojis];
-            memCards.sort(() => 0.5 - Math.random());
-            
-            const grid = document.getElementById('mem-grid');
-            grid.innerHTML = '';
-            
-            memCards.forEach((emoji, index) => {
-                const card = document.createElement('div');
-                card.classList.add('m-card');
-                card.dataset.val = emoji;
-                card.innerHTML = `<span>${emoji}</span>`;
-                card.addEventListener('click', flipCard);
-                grid.appendChild(card);
+            const grid = document.getElementById('mem-grid'); grid.innerHTML = '';
+            memCards.forEach((e) => {
+                const c = document.createElement('div'); c.className = 'm-card'; c.dataset.val = e; c.innerHTML = `<span>${e}</span>`;
+                c.addEventListener('click', flipCard); grid.appendChild(c);
             });
         }
-
         function flipCard() {
-            if(lockBoard) return;
-            if(this === firstCard) return;
-            
-            this.classList.add('flipped');
-            playSfx('hit');
-            
-            if(!firstCard) { firstCard = this; return; }
-            secondCard = this;
-            checkForMatch();
-        }
-
-        function checkForMatch() {
-            let isMatch = firstCard.dataset.val === secondCard.dataset.val;
-            if(isMatch) {
+            if(lockBd || this === fCard) return;
+            this.classList.add('flipped'); playSfx('hit');
+            if(!fCard) { fCard = this; return; }
+            sCard = this; lockBd = true;
+            if(fCard.dataset.val === sCard.dataset.val) {
                 playSfx('coin');
-                firstCard.classList.add('matched'); secondCard.classList.add('matched');
-                firstCard.removeEventListener('click', flipCard); secondCard.removeEventListener('click', flipCard);
-                resetBoard();
-                memMatchCount++;
-                document.getElementById('sc-mem').innerText = memMatchCount * 10;
-                addXP(5);
-                if(memMatchCount === 6) setTimeout(()=>alert("Phá đảo game thẻ! Bạn siêu trí nhớ!"), 500);
+                fCard.classList.add('matched'); sCard.classList.add('matched');
+                fCard.removeEventListener('click', flipCard); sCard.removeEventListener('click', flipCard);
+                [fCard, sCard, lockBd] = [null, null, false]; memMatches++;
+                document.getElementById('sc-mem').innerText = memMatches * 10; addXP(10);
+                if(memMatches === 8) setTimeout(()=>showToast("🏆 Phá Đảo Thẻ Trí Nhớ!"), 500);
             } else {
-                lockBoard = true;
-                setTimeout(() => {
-                    firstCard.classList.remove('flipped'); secondCard.classList.remove('flipped');
-                    resetBoard();
-                }, 1000);
+                setTimeout(() => { fCard.classList.remove('flipped'); sCard.classList.remove('flipped'); [fCard, sCard, lockBd] = [null, null, false]; }, 800);
             }
         }
-        function resetBoard() { [firstCard, secondCard, lockBoard] = [null, null, false]; }
 
-        // ================= TRUTH OR DARE =================
-        const todData = {
-            truth: ["Ai là người bạn thân nhất trong lớp?", "Điểm kém nhất từng bị là mấy môn gì?", "Đã từng ngủ gật trong tiết nào chưa?", "Mô tả tính cách của Hoài Bảo trong 3 từ?"],
-            dare: ["Hát một đoạn nhạc trend TikTok.", "Làm mặt xấu chụp hình.", "Nhắn tin 'Chào cậu' cho người bạn số 5 trong danh sách onl.", "Chạy ra cửa sổ hét to 'Tôi yêu 7A7'."]
-        };
-        function rollToD(type) {
-            let arr = todData[type];
-            let tdRes = document.getElementById('tod-res');
-            tdRes.style.transform = "scale(0.9)";
-            playSfx('hit');
-            setTimeout(() => {
-                tdRes.innerText = (type==='truth'?"🗣️ SỰ THẬT:\n":"🔥 THÁCH ĐỐ:\n") + arr[Math.floor(Math.random()*arr.length)];
-                tdRes.style.transform = "scale(1)";
-            }, 200);
-        }
-
-        // ================= GAME CŨ (Nọc, Băng, IQ, HT) =================
-        function openGame(g) { document.getElementById('game-list').classList.add('hidden'); document.getElementById('ui-'+g).classList.remove('hidden'); }
-        function closeGame() { clearInterval(gTimer); document.getElementById('game-list').classList.remove('hidden'); document.querySelectorAll("[id^='ui-']").forEach(e=>e.classList.add('hidden')); document.querySelectorAll('.target-img').forEach(e=>e.style.display='none'); document.getElementById('img-hb').style.display='none'; }
-
-        let gTimer, gScore=0, gTime=0, curGame="";
+        // --- Action Games (Bắt Nọc, Đập Băng) ---
+        let gTimer, gScore=0, gTime=0;
         function startGame(type) {
-            curGame = type; gScore = 0; gTime = 20; 
+            gScore = 0; gTime = 20; 
             document.getElementById('sc-'+type).innerText = gScore;
             document.getElementById('btn-'+type).classList.add('hidden');
             document.getElementById('tg-'+type).style.display = 'block';
@@ -530,53 +762,110 @@
             gTimer = setInterval(() => {
                 gTime--; if(gTime<=0) {
                     clearInterval(gTimer); document.getElementById('tg-'+type).style.display='none'; document.getElementById('btn-'+type).classList.remove('hidden');
-                    alert(`Hết giờ! Bạn được ${gScore} điểm!`); addXP(gScore);
+                    alert(`Hết giờ! Tích lũy được ${gScore} điểm!`); addXP(gScore*2);
                 } else moveTgt(type);
-            }, type==='ice'?700:1000);
+            }, type==='ice'?650:850); // Băng chạy nhanh hơn Nọc Nọc
             moveTgt(type);
         }
-
         function moveTgt(type) {
             let tg = document.getElementById('tg-'+type); let p = tg.parentElement;
-            tg.style.left = Math.random()*(p.clientWidth-75) + 'px'; tg.style.top = Math.random()*(p.clientHeight-75) + 'px';
+            tg.style.left = Math.random()*(p.clientWidth-80) + 'px'; tg.style.top = Math.random()*(p.clientHeight-80) + 'px';
         }
         function catchTgt(e, type) {
             e.stopPropagation(); e.preventDefault(); playSfx('hit');
-            gScore++; document.getElementById('sc-'+type).innerText = gScore;
-            sysData[type]++; saveData();
+            gScore++; document.getElementById('sc-'+type).innerText = gScore; sysData[type]++; saveData();
             let tg = document.getElementById('tg-'+type);
-            tg.style.transform = "scale(1.5) rotate(45deg)"; tg.style.opacity = "0";
+            tg.style.transform = "scale(1.8) rotate(45deg)"; tg.style.opacity = "0";
             setTimeout(()=>{ tg.style.transform="scale(1) rotate(0)"; tg.style.opacity="1"; moveTgt(type); }, 150);
         }
-        function missClick() {}
+        function missClick() { playSfx('wrong'); }
 
+        // --- Hoài Bảo IQ & Chiều Cao ---
         function checkIQ() {
             let v = parseInt(document.getElementById('iq-val').value); let img = document.getElementById('img-hb'); let res = document.getElementById('res-iq');
-            if(isNaN(v)) { res.innerText = "Nhập số vào đi kìa!"; return; }
-            if(v < 200) { img.style.display = 'block'; res.innerText = "SIÊU BÁ KHÍ!\nSai rồi! IQ của học bá Hoài Bảo phải trên 200 cơ!"; playSfx('wrong');} 
-            else { img.style.display = 'none'; res.innerText = `Chuẩn! IQ ${v} mới xứng tầm!`; res.style.color = "#2ecc71"; playSfx('coin');}
+            if(isNaN(v)) return res.innerText = "Gõ số zô!!!";
+            if(v < 200) { img.style.display = 'block'; res.innerText = "SIÊU BÁ KHÍ!\nSai rồi! IQ của Hoài Bảo bét nhất phải 200!"; playSfx('wrong');} 
+            else { img.style.display = 'none'; res.innerText = `Chính Xác! Quá phục IQ ${v} của Đỉnh Cao Học Bá!`; res.style.color = "var(--noc-noc-glow)"; playSfx('coin');}
         }
         function checkHeight() {
             let n = document.getElementById('ht-name').value.toLowerCase().trim(); let res = document.getElementById('res-ht');
-            if(!n) return res.innerText = "Chưa nhập tên mà!";
-            if(n.includes("long")) res.innerText = "Chiều cao của Long là: 1m51";
-            else if(n.includes("hân") || n.includes("han")) res.innerText = "Chiều cao của Hân là: 1m42";
-            else if(n.includes("tài") || n.includes("tai")) res.innerText = "Chiều cao của Tài là: 1m58";
-            else res.innerText = `Chiều cao của ${n} là: 1m${Math.floor(Math.random()*40)+40}`;
+            if(!n) return res.innerText = "Tên đâu?";
             playSfx('hit');
+            if(n.includes("long")) res.innerText = "Cột mốc của Long: 1m51";
+            else if(n.includes("hân") || n.includes("han")) res.innerText = "Chỉ số của Hân: 1m42";
+            else if(n.includes("tài") || n.includes("tai")) res.innerText = "Tài khổng lồ: 1m58";
+            else res.innerText = `Máy quét ${n}: 1m${Math.floor(Math.random()*45)+40}`;
         }
 
-        // ================= POMODORO CHILL =================
+        // --- Truth or Dare ---
+        const todData = {
+            truth: ["Môn học ghét nhất là gì?", "Crush ai trong lớp không khai mau?", "Từng gian lận kiểm tra bao giờ chưa?", "Nhận xét 1 câu về GV chủ nhiệm?"],
+            dare: ["Múa một điệu TikTok ngớ ngẩn nhất.", "Nhắn 'Cậu đẹp trai/xinh gái quá' cho người số 3 trong inbox.", "Đội sách lên đầu đi 3 vòng lớp.", "Hát chay điệp khúc bài Quốc Ca."]
+        };
+        function rollToD(type) {
+            let arr = todData[type]; let tdRes = document.getElementById('tod-res');
+            tdRes.style.transform = "scale(0.8)"; playSfx('hit');
+            setTimeout(() => {
+                tdRes.innerHTML = `<span style="color:${type==='truth'?'#2ecc71':'#e74c3c'}">${type==='truth'?'🗣️ SỰ THẬT:':'🔥 THÁCH ĐỐ:'}</span><br><br>${arr[Math.floor(Math.random()*arr.length)]}`;
+                tdRes.style.transform = "scale(1)";
+            }, 250);
+        }
+
+        // ================= 6. CHILL / THIỀN =================
         let pomoInterval, pTime = 25*60;
         function startPomo() {
             clearInterval(pomoInterval); playSfx('coin');
             pomoInterval = setInterval(() => {
                 pTime--; let m = Math.floor(pTime/60); let s = pTime%60;
                 document.getElementById('pomo-txt').innerText = `${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
-                if(pTime<=0) { clearInterval(pomoInterval); alert("Hết 25 phút! Xách đít lên đi dạo xíu đi!"); resetPomo();}
+                if(pTime<=0) { clearInterval(pomoInterval); alert("Hết giờ! Đi dạo xíu cho giãn não!"); resetPomo();}
             }, 1000);
         }
         function resetPomo() { clearInterval(pomoInterval); pTime = 25*60; document.getElementById('pomo-txt').innerText = "25:00"; }
+
+        // Thiền
+        let bActive = false;
+        function startBreathe() {
+            if(bActive) return; bActive = true;
+            let circle = document.getElementById('breathe-circle'); let cycles = 0;
+            let btn = event.target; btn.innerText = "Đang Thiền..."; btn.style.background = "#555";
+            
+            let bInt = setInterval(() => {
+                if(circle.classList.contains('inhale')) { circle.classList.remove('inhale'); circle.innerText = "Thở Ra..."; } 
+                else { circle.classList.add('inhale'); circle.innerText = "Hít Vào..."; }
+                cycles++;
+                if(cycles >= 12) { // Tầm 1 phút (mỗi nhịp 4s)
+                    clearInterval(bInt); circle.classList.remove('inhale'); circle.innerText = "Xong!"; 
+                    btn.innerText = "Bắt Đầu Bài Tập 1 Phút"; btn.style.background = "var(--accent)"; bActive = false;
+                    addXP(50); // Thiền xong cho 50XP
+                }
+            }, 4000);
+            circle.classList.add('inhale'); circle.innerText = "Hít Vào...";
+        }
+
+        // ================= 7. SHOP HỆ THỐNG =================
+        function buyItem(name, cost) {
+            if(sysData.items.includes(name)) return showToast("Đã mua cái này rồi má ơi!", true);
+            if(sysData.xp < cost) return showToast(`Thiếu tiền! Cần ${cost} XP lận.`, true);
+            
+            sysData.xp -= cost; sysData.items.push(name); saveData();
+            playSfx('buy'); showToast(`Đã tậu thành công: ${name}`);
+        }
+
+        // ================= 8. NHẬT KÝ LỚP =================
+        function saveDiary() {
+            let text = document.getElementById('diary-input').value.trim();
+            if(!text) return showToast("Viết cái gì vô đi chứ!", true);
+            let date = new Date().toLocaleDateString('vi-VN') + " " + new Date().toLocaleTimeString('vi-VN');
+            sysData.diary.unshift({t: text, d: date}); // Chèn lên đầu
+            document.getElementById('diary-input').value = "";
+            saveData(); renderDiary(); playSfx('coin'); showToast("Đã cất vào tủ bí mật!");
+        }
+        function renderDiary() {
+            let list = document.getElementById('diary-list');
+            if(sysData.diary.length === 0) { list.innerHTML = "<p style='color:#777; font-style:italic;'>Chưa có bút tích nào.</p>"; return; }
+            list.innerHTML = sysData.diary.map(d => `<div class="diary-entry"><small style="color:var(--gold)">${d.d}</small><br>${d.t}</div>`).join('');
+        }
     </script>
 </body>
 </html>
