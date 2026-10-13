@@ -1,150 +1,599 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#15102e">
-<title>Ngôi Nhà 7A7 ✦</title>
-<style>
-:root{--bg:#100d24;--panel:#1c1740;--panel2:#282052;--text:#fff8ff;--muted:#c6bee8;--pink:#ff65bb;--purple:#8d6bff;--cyan:#67e8f9;--lime:#b6ff75;--gold:#ffd66b}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 15% 0%,#492778 0,transparent 35%),radial-gradient(ellipse at 90% 30%,#153e62 0,transparent 35%),var(--bg);min-height:100vh;overflow-x:hidden}
-body:before{content:"✦　　✧　　 ✦　　　 ✧　　✦";position:fixed;inset:0;pointer-events:none;opacity:.13;font-size:24px;letter-spacing:24px;line-height:100px;word-break:break-all;z-index:-1}
-button{font:inherit;cursor:pointer;touch-action:manipulation}
-button:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
-.top{padding:24px 16px 22px;text-align:center;background:linear-gradient(135deg,#4f28a6,#a53cbd 55%,#f45ba5);border-radius:0 0 32px 32px;box-shadow:0 14px 40px #0005;position:relative;overflow:hidden}
-.top:after{content:"★";position:absolute;right:7%;top:4px;font-size:88px;opacity:.13;transform:rotate(18deg)}
-.logo{font-weight:1000;font-size:clamp(27px,7vw,42px);letter-spacing:.5px;text-shadow:0 4px 0 #391a71}
-.tagline{margin:8px 0 14px;color:#fff0ff}
-.version{display:inline-block;padding:7px 13px;border:1px solid #ffffff70;background:#ffffff20;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:1px}
-nav{position:sticky;top:0;z-index:20;display:flex;gap:8px;padding:11px 12px;background:#100d24ed;backdrop-filter:blur(12px);border-bottom:1px solid #ffffff15;overflow-x:auto}
-nav button{flex:1;min-width:max-content;border:1px solid #ffffff18;background:#211b42;color:#ddd5ff;border-radius:15px;padding:12px 15px;font-weight:750}
-nav button.active{background:linear-gradient(135deg,#7166ff,#a34ff0);color:white;box-shadow:0 6px 18px #7963ff55}
-main{max-width:1000px;margin:auto;padding:16px}
-.page{display:none;animation:appear .22s ease}
-.page.active{display:block}
-@keyframes appear{from{opacity:.4;transform:translateY(5px)}to{opacity:1;transform:none}}
-.hero{padding:24px 20px;border-radius:25px;background:linear-gradient(140deg,#342c9b,#773cc3 65%,#bd4098);box-shadow:0 12px 30px #0003;position:relative;overflow:hidden;margin:5px 0 22px}
-.hero h2{font-size:clamp(25px,5vw,36px);line-height:1.2;margin:12px 0}
-.hero p{line-height:1.7;color:#f1eaff}
-.pill{display:inline-block;background:#ffffff1e;border:1px solid #ffffff4a;padding:6px 11px;border-radius:99px;font-size:12px;font-weight:800}
-.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
-h2.section{font-size:22px;margin:25px 0 13px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{background:linear-gradient(145deg,#241e4d,#17142f);border:1px solid #ffffff17;border-radius:20px;padding:16px;min-width:0;box-shadow:0 7px 22px #0002}
-.emoji{font-size:38px;line-height:1.3}
-.card h3{margin:8px 0 7px;font-size:17px}
-.card p,.muted{color:var(--muted);font-size:13px;line-height:1.65}
-.btn{border:0;border-radius:13px;padding:12px 14px;background:linear-gradient(135deg,#7168ff,#9b55f3);color:white;font-weight:850;box-shadow:0 5px 13px #0002}
-.btn.full{width:100%;margin-top:9px}
-.btn.pink{background:linear-gradient(135deg,#f04ea8,#c53fd2)}
-.btn.green{background:linear-gradient(135deg,#169c87,#39c878)}
-.btn.gold{background:linear-gradient(135deg,#b77a16,#f0b83c);color:#21162b}
-.btn:active{transform:scale(.98)}
-.panel{display:none;margin-top:18px;padding:18px;background:#1c1740;border:1px solid #ffffff20;border-radius:21px}
-.answer{display:block;width:100%;text-align:left;margin:9px 0;padding:13px;border:1px solid #ffffff20;background:#292350;color:white;border-radius:13px}
-.answer.correct{background:#126b53;border-color:#72ffc3}
-.answer.wrong{background:#8b315c;border-color:#ff9dc8}
-.stats{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:12px 0}
-.stat{background:#2b2453;padding:9px 12px;border-radius:12px;font-size:13px}
-.track{height:8px;border-radius:20px;background:#3a315e;overflow:hidden;margin:12px 0}
-.fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--lime));transition:width .2s}
-#pond{height:370px;position:relative;overflow:hidden;border-radius:22px;margin:14px 0;background:radial-gradient(ellipse at 30% 25%,#298b9a,#155a78 58%,#12344f);border:2px solid #5bd8d1;touch-action:manipulation}
-#pond:before,#pond:after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-radial-gradient(ellipse at 50% 50%,transparent 0 34px,#8ff9e833 36px 38px,transparent 40px 72px)}
-#pond:after{background:radial-gradient(ellipse at 15% 80%,#a1ff9d35,transparent 23%),radial-gradient(ellipse at 85% 15%,#c0ffff25,transparent 25%)}
-.frog{position:absolute;width:72px;height:72px;border-radius:50%;border:3px solid #d4ff9d;padding:0;overflow:hidden;background:#ffb3d9;box-shadow:0 0 17px #b6ff7590;z-index:2;display:grid;place-items:center}
-.frog img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.frog:active{transform:scale(.8)}
-.net{position:absolute;display:none;pointer-events:none;z-index:5;font-size:60px;transform:translate(-50%,-50%)}
-#miniContent .btn{margin:4px}
-footer{text-align:center;padding:28px 15px 40px;color:#aaa0d5;font-size:13px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:50;background:#fff;color:#23143c;padding:12px 18px;border-radius:14px;font-weight:800;box-shadow:0 10px 30px #0005;display:none;max-width:90%;text-align:center}
-@media(min-width:650px){main{padding:22px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:30px}.card{padding:19px}}
-@media(max-width:370px){.hero-actions{grid-template-columns:1fr}.grid{gap:8px}.card{padding:12px}.card h3{font-size:15px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏠 NGÔI NHÀ 7A7 ULTIMATE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --surface-color: rgba(31, 40, 51, 0.85);
+            --primary: #9d4edd;
+            --secondary: #00f5d4;
+            --accent: #ff0a54;
+            --text-main: #c5c6c7;
+            --text-light: #ffffff;
+            --noc-noc-glow: #39ff14;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: radial-gradient(circle at top, #1a0b2e, var(--bg-color));
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Particles / Stars Background */
+        .stars {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: starsAnim 4s linear infinite;
+            opacity: 0.3;
+        }
+        @keyframes starsAnim { 0% { transform: translateY(0); } 100% { transform: translateY(-200px); } }
+
+        /* Typography & Utilities */
+        h1, h2, h3 { text-shadow: 0 0 10px var(--primary); text-align: center; margin-bottom: 15px;}
+        h1 { font-size: 2rem; background: linear-gradient(90deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-center { text-align: center; }
+        .mb-2 { margin-bottom: 10px; }
+        .mt-2 { margin-top: 10px; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+
+        /* Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: rgba(11, 12, 16, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-top: 2px solid var(--primary);
+            box-shadow: 0 -5px 20px rgba(157, 78, 221, 0.4);
+            z-index: 9999;
+        }
+        .nav-btn {
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .nav-btn span { font-size: 0.7rem; font-weight: bold; margin-top: 4px; }
+        .nav-btn.active { color: var(--secondary); text-shadow: 0 0 15px var(--secondary); transform: translateY(-5px); }
+
+        /* Screens */
+        .screen { display: none; padding: 20px 15px 90px 15px; animation: fadeIn 0.4s ease-out; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        /* Cards & Buttons */
+        .card {
+            background: var(--surface-color);
+            border: 1px solid rgba(0, 245, 212, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+        }
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 900;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 10, 84, 0.5);
+            transition: transform 0.1s, box-shadow 0.2s;
+            margin-bottom: 10px;
+        }
+        .btn:active { transform: scale(0.95); box-shadow: 0 2px 10px rgba(255, 10, 84, 0.8); }
+        .btn-secondary { background: linear-gradient(45deg, #1f2833, #45a29e); box-shadow: 0 4px 15px rgba(69, 162, 158, 0.4); }
+
+        /* Study Section */
+        .level-btn { background: #2c3e50; border: 2px solid #34495e; color: white; padding: 10px; border-radius: 10px; width: 48%; margin: 1%; display: inline-block; text-align: center; cursor: pointer; }
+        .level-btn.easy { border-color: #2ecc71; color: #2ecc71; }
+        .level-btn.medium { border-color: #f1c40f; color: #f1c40f; }
+        .level-btn.hard { border-color: #e74c3c; color: #e74c3c; }
+        .level-btn.super-hard { border-color: #9b59b6; color: #9b59b6; }
+        .quiz-option {
+            background: rgba(255,255,255,0.1); padding: 12px; border-radius: 10px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer;
+        }
+        .quiz-option.correct { background: rgba(46, 204, 113, 0.3); border-color: #2ecc71; }
+        .quiz-option.wrong { background: rgba(231, 76, 60, 0.3); border-color: #e74c3c; }
+
+        /* Game 1: Noc Noc */
+        #nocnoc-board {
+            position: relative; width: 100%; height: 350px; background: rgba(0,0,0,0.5); border-radius: 15px; border: 2px solid var(--secondary); overflow: hidden;
+        }
+        .nocnoc-img {
+            position: absolute; width: 70px; height: 70px; border-radius: 50%; object-fit: cover;
+            border: 3px solid var(--noc-noc-glow); box-shadow: 0 0 20px var(--noc-noc-glow);
+            transition: top 0.4s ease-out, left 0.4s ease-out; cursor: crosshair; display: none; z-index: 10;
+        }
+
+        /* Game 2: Phản Xạ */
+        #reaction-board {
+            width: 100%; height: 200px; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: bold; background: #c0392b; cursor: pointer; transition: background 0.1s;
+        }
+
+        /* Stats & Chill */
+        .stat-box { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
+        .stat-box:last-child { border: none; }
+        .pomodoro-timer { font-size: 3rem; text-align: center; font-weight: 900; text-shadow: 0 0 20px var(--secondary); margin: 20px 0; }
+
+        /* Utils */
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
-<header class="top">
-  <div class="logo">🏠 NGÔI NHÀ 7A7</div>
-  <p class="tagline">✨ Học bá khí · Chơi hết ý · Cùng nhau tiến bộ ✨</p>
-  <span class="version">BẢN ĐẶC BIỆT ✦ KHÔNG CẦN ĐĂNG NHẬP</span>
-</header>
-<nav aria-label="Điều hướng chính">
-  <button class="active" data-page="home">🏠 Trang chủ</button>
-  <button data-page="study">📚 Học tập</button>
-  <button data-page="games">🎮 Game</button>
-  <button data-page="profile">🏆 Thành tích</button>
-</nav>
-<main>
-<section id="home" class="page active">
-  <div class="hero">
-    <span class="pill">WELCOME TO 7A7 ✦</span>
-    <h2>Đây là nhà của chúng ta! 💜</h2>
-    <p>Vào đây vừa học vừa quẩy. Có thử thách KHTN lớp 7, bắt Nọc Nọc phiên bản ảnh tròn, và mấy trò phản xạ siêu nhây!</p>
-    <div class="hero-actions">
-      <button class="btn" onclick="go('study')">📚 Đi học thôi</button>
-      <button class="btn pink" onclick="go('games')">🎮 Vào chiến game</button>
+
+    <div class="stars"></div>
+
+    <!-- 1. TRANG CHỦ -->
+    <div id="screen-home" class="screen active">
+        <div class="card text-center" style="border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(157, 78, 221, 0.3);">
+            <h1>🏠 NGÔI NHÀ 7A7<br>ULTIMATE</h1>
+            <p style="color: var(--secondary); font-weight: bold;">✨ Học bá khí · Chơi hết ý · Cùng nhau tiến bộ ✨</p>
+        </div>
+        <div class="card">
+            <h3>Chào mừng đến với vũ trụ 7A7!</h3>
+            <p class="mb-2">Hôm nay bạn muốn làm gì?</p>
+            <button class="btn" onclick="switchTab('screen-study', 1)">📚 Đi học ngay</button>
+            <button class="btn" onclick="switchTab('screen-games', 2)">🎮 Cày game</button>
+            <button class="btn btn-secondary" onclick="switchTab('screen-chill', 3)">🌿 Chill thôi</button>
+        </div>
+        <div class="card">
+            <h3>Nhiệm vụ hôm nay</h3>
+            <div class="stat-box"><span>🔥 Chuỗi ngày học:</span> <span id="home-streak" style="color:var(--accent)">1 ngày</span></div>
+            <div class="stat-box"><span>🐸 Nọc Nọc đã bắt:</span> <span id="home-nocnoc" style="color:var(--noc-noc-glow)">0</span></div>
+            <div class="stat-box"><span>👑 Tổng điểm XP:</span> <span id="home-xp" style="color:#f1c40f">0</span></div>
+        </div>
     </div>
-  </div>
-  <h2 class="section">🌟 Khu vực nổi bật</h2>
-  <div class="grid">
-    <article class="card"><div class="emoji">🧪</div><h3>Phòng KHTN</h3><p>Hóa học, Sinh học, Vật lý với câu hỏi đúng/sai và trắc nghiệm.</p><button class="btn full" onclick="go('study')">Mở phòng học</button></article>
-    <article class="card"><div class="emoji">🐸</div><h3>Bắt Nọc Nọc</h3><p>Ảnh bạn gửi được bo tròn thành mục tiêu để bắt đủ 10 con.</p><button class="btn green full" onclick="openFrog()">Vào ao bắt</button></article>
-    <article class="card"><div class="emoji">⚡</div><h3>Phản xạ thần tốc</h3><p>Canh tín hiệu, chạm nhanh và khoe thành tích.</p><button class="btn pink full" onclick="startReflex()">Thử phản xạ</button></article>
-  </div>
-  <div class="hero" style="margin-top:18px;background:linear-gradient(135deg,#173e62,#352b8b)">
-    <span class="pill">📣 THÔNG BÁO CỦA NHÀ</span><h2>Học vui nhưng vẫn chất!</h2><p>Mọi nút trong web đều có chức năng. Điểm được lưu trên trình duyệt của máy này. Muốn có thêm game mới thì cập nhật file index.html trên GitHub Pages.</p>
-  </div>
-</section>
 
-<section id="study" class="page">
-  <div class="hero"><span class="pill">📚 NGÔI NHÀ HỌC TẬP</span><h2>Học bài cùng Hoài Bảo ✨</h2><p>Chọn môn và độ khó. Trả lời đúng để lấy điểm; câu hỏi là bộ luyện tập mẫu theo kiến thức KHTN lớp 7.</p></div>
-  <div class="grid">
-    <article class="card"><div class="emoji">🧪</div><h3>Hóa học</h3><p>Nguyên tử, phân tử, chất và hỗn hợp.</p><button class="btn full" onclick="startQuiz('hoa','easy')">🌱 Dễ</button><button class="btn pink full" onclick="startQuiz('hoa','hard')">🔥 Khó</button></article>
-    <article class="card"><div class="emoji">🌱</div><h3>Sinh học</h3><p>Tế bào, cơ thể sống và quang hợp.</p><button class="btn green full" onclick="startQuiz('sinh','easy')">🌱 Dễ</button><button class="btn pink full" onclick="startQuiz('sinh','hard')">🔥 Khó</button></article>
-    <article class="card"><div class="emoji">⚡</div><h3>Vật lý</h3><p>Âm thanh, ánh sáng, tốc độ và lực.</p><button class="btn gold full" onclick="startQuiz('ly','easy')">🌱 Dễ</button><button class="btn pink full" onclick="startQuiz('ly','hard')">🔥 Khó</button></article>
-  </div>
-  <div id="studyPanel" class="panel">
-    <h2 id="quizTitle">Học bài</h2><div class="stats"><span id="quizCount" class="stat">Câu 1</span><span id="quizScore" class="stat">⭐ 0 điểm</span></div>
-    <div class="track"><div id="progress" class="fill"></div></div>
-    <h3 id="question"></h3><div id="answers"></div><p id="feedback" class="muted" aria-live="polite"></p>
-    <button id="nextQuestion" class="btn full" style="display:none" onclick="nextQuiz()">Câu tiếp theo →</button>
-  </div>
-</section>
+    <!-- 2. NGÔI NHÀ HỌC TẬP -->
+    <div id="screen-study" class="screen">
+        <h1>📚 Học bài cùng Bảo</h1>
+        
+        <!-- Chọn môn & Cấp độ -->
+        <div id="study-menu" class="card">
+            <h3>Chọn Môn Học</h3>
+            <button class="btn btn-secondary">🧪 Khoa học tự nhiên 7</button>
+            <button class="btn btn-secondary" style="opacity:0.5">🌱 Sinh học (Sắp có)</button>
+            
+            <h3 class="mt-2">Chọn Độ Khó</h3>
+            <div class="flex-center" style="flex-wrap: wrap;">
+                <div class="level-btn easy" onclick="startQuiz('easy')">🌱 EASY<br><small>Cơ bản</small></div>
+                <div class="level-btn medium" onclick="startQuiz('medium')">⚔️ MEDIUM<br><small>Áp dụng</small></div>
+                <div class="level-btn hard" onclick="startQuiz('hard')">🔥 HARD<br><small>Suy luận</small></div>
+                <div class="level-btn super-hard" onclick="startQuiz('super')">💀 LÊN ĐỈNH<br><small>Siêu khó</small></div>
+            </div>
+        </div>
 
-<section id="games" class="page">
-  <div class="hero"><span class="pill">🎮 KHU GIẢI TRÍ 7A7</span><h2>Chọn game đi bro 😎</h2><p>Chạm để chơi. Nhớ bật âm lượng nếu muốn nghe hiệu ứng.</p></div>
-  <div class="grid">
-    <article class="card"><div class="emoji">🐸</div><h3>Bắt Nọc Nọc</h3><p>Bắt 10 mục tiêu hình tròn trong 30 giây.</p><button class="btn green full" onclick="openFrog()">Bắt đầu!</button></article>
-    <article class="card"><div class="emoji">🧠</div><h3>Đúng hay xạo?</h3><p>Chọn đúng/sai trước những câu hỏi KHTN.</p><button class="btn full" onclick="startTF()">Chơi ngay</button></article>
-    <article class="card"><div class="emoji">⚡</div><h3>Phản xạ thần tốc</h3><p>Đợi nút chuyển xanh rồi chạm nhanh.</p><button class="btn pink full" onclick="startReflex()">Vào đấu</button></article>
-    <article class="card"><div class="emoji">😂</div><h3>Máy tạo câu nhây</h3><p>Bốc một câu cà khịa vui vẻ dành cho hội bạn.</p><button class="btn gold full" onclick="funnyLine()">Bốc câu hài</button></article>
-    <article class="card"><div class="emoji">🎯</div><h3>Quiz ngẫu nhiên</h3><p>Chọn nhanh một câu thử thách.</p><button class="btn full" onclick="startRandomQuiz()">Thử vận may</button></article>
-    <article class="card"><div class="emoji">🪄</div><h3>Vũ trụ 7A7</h3><p>Bấm nút để nhận một lời tiên tri bá khí.</p><button class="btn pink full" onclick="fortune()">Xem tiên tri</button></article>
-  </div>
-  <div id="gamePanel" class="panel"><h2 id="gameTitle">🎮 Game</h2><p id="gameText" class="muted" aria-live="polite"></p><div id="gameContent"></div><button class="btn full" style="margin-top:12px" onclick="hideGame()">Đóng trò chơi</button></div>
-  <h2 class="section">🐸 Ao Nọc Nọc</h2><p class="muted">Ảnh bạn gửi được cắt tròn bằng khung game. Chạm vào ảnh để bắt, đủ 10 con là thắng.</p>
-  <div class="card">
-    <div class="stats"><span class="stat">🐸 Đã bắt: <b id="caught">0</b>/10</span><span class="stat">⏱️ Còn: <b id="timer">30</b>s</span></div>
-    <div id="pond" aria-label="Ao bắt Nọc Nọc"><div id="net" class="net">🕸️</div></div>
-    <button class="btn green full" onclick="startFrog()">🪰 Thả Nọc Nọc xuống ao!</button><p id="frogMessage" class="muted" aria-live="polite">Bấm nút để bắt đầu. Bắt đủ 10 con để thắng!</p>
-  </div>
-</section>
+        <!-- Khung Trắc nghiệm -->
+        <div id="study-quiz" class="card hidden">
+            <h3 id="quiz-question" class="mb-2">Câu hỏi hiện tại?</h3>
+            <div id="quiz-options"></div>
+            <p id="quiz-explain" class="mt-2 hidden" style="font-style: italic; color: var(--secondary);"></p>
+            <button id="quiz-next-btn" class="btn hidden mt-2" onclick="nextQuestion()">Câu tiếp theo ➡️</button>
+            <button class="btn btn-secondary mt-2" onclick="exitQuiz()">⬅️ Thoát</button>
+        </div>
+    </div>
 
-<section id="profile" class="page">
-  <div class="hero"><span class="pill">🏆 BẢNG VINH DANH</span><h2>Thành tích của bạn</h2><p>Chơi có điểm, học có tiến bộ!</p></div>
-  <div class="grid">
-    <article class="card"><div class="emoji">⭐</div><h3>Tổng điểm</h3><p id="totalScore">0 điểm</p></article>
-    <article class="card"><div class="emoji">🐸</div><h3>Nọc Nọc đã bắt</h3><p id="totalFrogs">0 con</p></article>
-    <article class="card"><div class="emoji">🏅</div><h3>Trận thắng</h3><p id="totalWins">0 trận</p></article>
-  </div>
-  <p class="muted">Điểm lưu trên trình duyệt này. Nếu đổi máy hoặc xóa dữ liệu trình duyệt, thành tích có thể mất.</p>
-  <button class="btn pink" onclick="resetStats()">Xóa thành tích</button>
-</section>
-</main>
-<footer>🏠 NGÔI NHÀ 7A7 · Học hết mình, chơi hết sức ✨</footer>
-<div id="toast" class="toast" role="status"></div>
+    <!-- 3. THẾ GIỚI GAME -->
+    <div id="screen-games" class="screen">
+        <h1>🎮 Vũ Trụ Game 7A7</h1>
+        
+        <div id="game-list">
+            <div class="card">
+                <h3>🐸 Bắt Nọc Nọc</h3>
+                <p>Nọc Nọc quậy phá đang chạy khắp nơi, hãy tóm nó lại!</p>
+                <button class="btn" onclick="openGame('nocnoc')">Chơi Ngay</button>
+            </div>
+            <div class="card">
+                <h3>⚡ Phản Xạ Thần Tốc</h3>
+                <p>Kiểm tra tốc độ tay của bạn bằng mili-giây.</p>
+                <button class="btn" onclick="openGame('reaction')">Chơi Ngay</button>
+            </div>
+        </div>
 
-<script>
-     
+        <!-- Bảng Game Nọc Nọc -->
+        <div id="game-nocnoc-ui" class="card hidden">
+            <h3>Bắt Nọc Nọc</h3>
+            <p>Điểm: <strong id="nn-score" style="color:var(--noc-noc-glow); font-size:1.5rem;">0</strong> / 10</p>
+            <div id="nocnoc-board">
+                <!-- Ảnh chuẩn được yêu cầu -->
+                <img src="image_c092a2.jpg" id="nn-target" class="nocnoc-img" alt="Nọc Nọc" onclick="catchNocNoc(event)">
+            </div>
+            <button class="btn mt-2" id="nn-start-btn" onclick="startNocNoc()">Bắt đầu (30s)</button>
+            <button class="btn btn-secondary" onclick="closeGame()">Thoát</button>
+        </div>
+
+        <!-- Bảng Game Phản Xạ -->
+        <div id="game-reaction-ui" class="card hidden">
+            <h3>Phản Xạ Thần Tốc</h3>
+            <p class="text-center">Kỷ lục: <strong id="react-record" style="color:var(--secondary)">---</strong> ms</p>
+            <div id="reaction-board" onmousedown="clickReact(event)" ontouchstart="clickReact(event)">
+                Chạm để bắt đầu!
+            </div>
+            <button class="btn btn-secondary mt-2" onclick="closeGame()">Thoát</button>
+        </div>
+    </div>
+
+    <!-- 4. GÓC CHILL -->
+    <div id="screen-chill" class="screen">
+        <h1>🌿 Góc Chill</h1>
+        <div class="card">
+            <h3>Đồng Hồ Pomodoro</h3>
+            <div class="pomodoro-timer" id="pomo-time">25:00</div>
+            <div style="display:flex; gap:10px;">
+                <button class="btn" onclick="startPomodoro()">Bắt đầu</button>
+                <button class="btn btn-secondary" onclick="resetPomodoro()">Dừng</button>
+            </div>
+        </div>
+        <div class="card">
+            <h3>📜 Trích dẫn tạo động lực</h3>
+            <p id="chill-quote" style="font-style:italic; font-size:1.1rem; line-height:1.5;">"Học không chơi đánh rơi tuổi trẻ. Chơi không học bán rẻ tương lai!"</p>
+            <button class="btn btn-secondary mt-2" onclick="newQuote()">Đổi câu khác</button>
+        </div>
+    </div>
+
+    <!-- 5. THÀNH TÍCH -->
+    <div id="screen-trophy" class="screen">
+        <h1>🏆 Bảng Vàng 7A7</h1>
+        <div class="card">
+            <h2 id="trophy-rank">Tân Binh</h2>
+            <div class="stat-box"><span>Tổng XP:</span> <span id="t-xp">0</span></div>
+            <div class="stat-box"><span>Câu hỏi đúng:</span> <span id="t-correct">0</span></div>
+            <div class="stat-box"><span>Game đã thắng:</span> <span id="t-wins">0</span></div>
+            <div class="stat-box"><span>Bé Nọc Nọc đã tóm:</span> <span id="t-nocnoc">0</span></div>
+            <div class="stat-box"><span>Phản xạ nhanh nhất:</span> <span id="t-react">---</span></div>
+        </div>
+    </div>
+
+    <!-- 6. CÀI ĐẶT -->
+    <div id="screen-settings" class="screen">
+        <h1>⚙️ Cài Đặt</h1>
+        <div class="card">
+            <h3>Hệ Thống</h3>
+            <button class="btn btn-secondary" onclick="alert('Đã bật/tắt âm thanh (Chức năng Demo)')">🔊 Bật / Tắt Âm thanh</button>
+            <button class="btn btn-secondary" style="background:#e74c3c" onclick="resetData()">🗑️ Xóa toàn bộ dữ liệu</button>
+        </div>
+    </div>
+
+    <!-- Thanh Điều Hướng Dưới Cùng -->
+    <nav class="bottom-nav">
+        <div class="nav-btn active" onclick="switchTab('screen-home', 0)">🏠<span>Trang chủ</span></div>
+        <div class="nav-btn" onclick="switchTab('screen-study', 1)">📚<span>Học</span></div>
+        <div class="nav-btn" onclick="switchTab('screen-games', 2)">🎮<span>Game</span></div>
+        <div class="nav-btn" onclick="switchTab('screen-chill', 3)">🌿<span>Chill</span></div>
+        <div class="nav-btn" onclick="switchTab('screen-trophy', 4)">🏆<span>Cup</span></div>
+        <div class="nav-btn" onclick="switchTab('screen-settings', 5)">⚙️<span>Cài đặt</span></div>
+    </nav>
+
+    <!-- KỊCH BẢN JAVASCRIPT HỆ THỐNG -->
+    <script>
+        // 1. QUẢN LÝ TRẠNG THÁI (LocalStorage)
+        let playerStats = JSON.parse(localStorage.getItem('7a7_data')) || {
+            xp: 0,
+            answersCorrect: 0,
+            gamesWon: 0,
+            nocnocCaught: 0,
+            bestReaction: 9999,
+            streak: 1,
+            lastLogin: new Date().toDateString()
+        };
+
+        function saveData() {
+            localStorage.setItem('7a7_data', JSON.stringify(playerStats));
+            updateUI();
+        }
+
+        function checkStreak() {
+            let today = new Date().toDateString();
+            if(playerStats.lastLogin !== today) {
+                playerStats.streak++;
+                playerStats.lastLogin = today;
+                saveData();
+            }
+        }
+
+        // 2. HỆ THỐNG ĐIỀU HƯỚNG
+        function switchTab(screenId, navIndex) {
+            // Đóng tất cả
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            // Dọn dẹp game nếu đang mở
+            closeGame(true);
+
+            // Mở tab mới
+            document.getElementById(screenId).classList.add('active');
+            document.querySelectorAll('.nav-btn')[navIndex].classList.add('active');
+            updateUI();
+        }
+
+        function updateUI() {
+            document.getElementById('home-streak').innerText = playerStats.streak + ' ngày';
+            document.getElementById('home-nocnoc').innerText = playerStats.nocnocCaught;
+            document.getElementById('home-xp').innerText = playerStats.xp;
+            
+            document.getElementById('t-xp').innerText = playerStats.xp;
+            document.getElementById('t-correct').innerText = playerStats.answersCorrect;
+            document.getElementById('t-wins').innerText = playerStats.gamesWon;
+            document.getElementById('t-nocnoc').innerText = playerStats.nocnocCaught;
+            document.getElementById('t-react').innerText = playerStats.bestReaction === 9999 ? '---' : playerStats.bestReaction + ' ms';
+
+            let rank = "Tân Binh";
+            if(playerStats.xp > 500) rank = "Cao Thủ";
+            if(playerStats.xp > 2000) rank = "Học Bá 7A7";
+            if(playerStats.xp > 5000) rank = "Huyền Thoại";
+            document.getElementById('trophy-rank').innerText = rank;
+        }
+
+        // 3. MODULE HỌC TẬP (KHTN 7)
+        const qBank = {
+            'easy': [
+                {q: "Nguyên tử mang điện tích gì?", opts: ["Dương", "Âm", "Trung hòa về điện", "Không xác định"], ans: 2, exp: "Nguyên tử luôn trung hòa về điện vì số electron (-) bằng số proton (+)."}
+            ],
+            'medium': [
+                {q: "Kí hiệu hóa học của nguyên tố Carbon là gì?", opts: ["Ca", "C", "Co", "Cu"], ans: 1, exp: "C là Carbon, Ca là Calcium, Cu là Copper, Co là Cobalt."}
+            ],
+            'hard': [
+                {q: "Phân tử nước (H2O) có khối lượng phân tử (amu) là bao nhiêu? (Biết H=1, O=16)", opts: ["17", "18", "16", "32"], ans: 1, exp: "H2O = 2*1 + 16 = 18 amu."}
+            ],
+            'super': [
+                {q: "Theo mô hình Bohr, vỏ nguyên tử chứa các hạt gì?", opts: ["Proton", "Neutron", "Electron", "Quark"], ans: 2, exp: "Hạt nhân chứa Proton và Neutron, còn vỏ chứa Electron chuyển động xung quanh."}
+            ]
+        };
+
+        let currentQList = [];
+        let qIndex = 0;
+
+        function startQuiz(level) {
+            currentQList = [...qBank[level]];
+            if(currentQList.length === 0) return alert("Đang cập nhật thêm câu hỏi!");
+            qIndex = 0;
+            document.getElementById('study-menu').classList.add('hidden');
+            document.getElementById('study-quiz').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            let q = currentQList[qIndex];
+            document.getElementById('quiz-question').innerText = q.q;
+            document.getElementById('quiz-explain').classList.add('hidden');
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+            
+            let optsHtml = "";
+            q.opts.forEach((opt, idx) => {
+                optsHtml += `<div class="quiz-option" onclick="checkAnswer(${idx}, this)">${opt}</div>`;
+            });
+            document.getElementById('quiz-options').innerHTML = optsHtml;
+        }
+
+        function checkAnswer(idx, el) {
+            // Ngăn click nhiều lần
+            if(document.getElementById('quiz-explain').classList.contains('hidden') === false) return; 
+
+            let q = currentQList[qIndex];
+            let allOpts = document.querySelectorAll('.quiz-option');
+            
+            if(idx === q.ans) {
+                el.classList.add('correct');
+                playerStats.xp += 10;
+                playerStats.answersCorrect++;
+                saveData();
+            } else {
+                el.classList.add('wrong');
+                allOpts[q.ans].classList.add('correct');
+            }
+
+            document.getElementById('quiz-explain').innerText = "Giải thích: " + q.exp;
+            document.getElementById('quiz-explain').classList.remove('hidden');
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            qIndex++;
+            if(qIndex < currentQList.length) {
+                loadQuestion();
+            } else {
+                alert("Chúc mừng! Bạn đã hoàn thành bộ câu hỏi này.");
+                exitQuiz();
+            }
+        }
+
+        function exitQuiz() {
+            document.getElementById('study-menu').classList.remove('hidden');
+            document.getElementById('study-quiz').classList.add('hidden');
+        }
+
+        // 4. MODULE GAME
+        let gameTimer, nocnocTimer;
+
+        function openGame(gameId) {
+            document.getElementById('game-list').classList.add('hidden');
+            if(gameId === 'nocnoc') document.getElementById('game-nocnoc-ui').classList.remove('hidden');
+            if(gameId === 'reaction') {
+                document.getElementById('game-reaction-ui').classList.remove('hidden');
+                reactState = 'idle'; document.getElementById('reaction-board').innerText = "Chạm để bắt đầu!";
+                document.getElementById('reaction-board').style.background = "#34495e";
+            }
+        }
+
+        function closeGame(silent = false) {
+            clearInterval(nocnocTimer);
+            clearTimeout(reactTimeout);
+            document.getElementById('game-list').classList.remove('hidden');
+            document.getElementById('game-nocnoc-ui').classList.add('hidden');
+            document.getElementById('game-reaction-ui').classList.add('hidden');
+            document.getElementById('nn-target').style.display = 'none';
+        }
+
+        // GAME BẮT NỌC NỌC
+        let nnScore = 0;
+        let nnTime = 30;
+        function startNocNoc() {
+            nnScore = 0; nnTime = 30;
+            document.getElementById('nn-score').innerText = nnScore;
+            document.getElementById('nn-start-btn').classList.add('hidden');
+            const target = document.getElementById('nn-target');
+            target.style.display = 'block';
+
+            nocnocTimer = setInterval(() => {
+                nnTime--;
+                if(nnTime <= 0) {
+                    clearInterval(nocnocTimer);
+                    target.style.display = 'none';
+                    document.getElementById('nn-start-btn').classList.remove('hidden');
+                    alert(`Hết giờ! Bạn tóm được ${nnScore} bé Nọc Nọc.`);
+                } else {
+                    moveNocNoc();
+                }
+            }, 1000);
+            moveNocNoc();
+        }
+
+        function moveNocNoc() {
+            const board = document.getElementById('nocnoc-board');
+            const target = document.getElementById('nn-target');
+            let maxX = board.clientWidth - 70;
+            let maxY = board.clientHeight - 70;
+            target.style.left = (Math.random() * maxX) + 'px';
+            target.style.top = (Math.random() * maxY) + 'px';
+        }
+
+        function catchNocNoc(e) {
+            e.preventDefault(); // Tránh bug double tap trên Android
+            nnScore++;
+            playerStats.nocnocCaught++;
+            playerStats.xp += 2;
+            document.getElementById('nn-score').innerText = nnScore;
+            saveData();
+            
+            // Hiệu ứng click (thu nhỏ ảnh xíu)
+            e.target.style.transform = "scale(0.8)";
+            setTimeout(() => e.target.style.transform = "scale(1)", 150);
+
+            if(nnScore >= 10 && nnTime > 0) {
+                clearInterval(nocnocTimer);
+                playerStats.gamesWon++;
+                saveData();
+                document.getElementById('nn-target').style.display = 'none';
+                document.getElementById('nn-start-btn').classList.remove('hidden');
+                alert("ĐỈNH CỦA CHÓP! Bạn đã thắng game Bắt Nọc Nọc!");
+            } else {
+                moveNocNoc();
+            }
+        }
+
+        // GAME PHẢN XẠ THẦN TỐC
+        let reactState = 'idle'; // idle, waiting, ready
+        let reactTimeout;
+        let startTime;
+
+        function clickReact(e) {
+            e.preventDefault();
+            const board = document.getElementById('reaction-board');
+            if(reactState === 'idle') {
+                board.style.background = "#e74c3c"; // Đỏ
+                board.innerText = "Chờ màu xanh nha...";
+                reactState = 'waiting';
+                let waitTime = Math.random() * 3000 + 1500;
+                reactTimeout = setTimeout(() => {
+                    board.style.background = "#2ecc71"; // Xanh lá
+                    board.innerText = "CHẠM ĐI!!!";
+                    reactState = 'ready';
+                    startTime = Date.now();
+                }, waitTime);
+            } else if (reactState === 'waiting') {
+                clearTimeout(reactTimeout);
+                board.style.background = "#f1c40f";
+                board.innerText = "Chạm quá sớm! Chạm để thử lại.";
+                reactState = 'idle';
+            } else if (reactState === 'ready') {
+                let timeTaken = Date.now() - startTime;
+                board.style.background = "#3498db";
+                board.innerText = `${timeTaken} ms! Chạm để chơi lại.`;
+                reactState = 'idle';
+                
+                playerStats.xp += 5;
+                if(timeTaken < playerStats.bestReaction) {
+                    playerStats.bestReaction = timeTaken;
+                }
+                saveData();
+            }
+        }
+
+        // 5. GÓC CHILL (Pomodoro & Quotes)
+        const quotes = [
+            "Đừng áp lực, hãy biến áp lực thành kim cương! 💎",
+            "Nọc Nọc luôn dõi theo bạn, cố lên! 🐸",
+            "Hôm nay bạn học thêm 1 trang, ngày mai bạn đỡ khổ 1 đời. ✨",
+            "Trùm trường không bằng trùm tri thức! 🎓"
+        ];
+        function newQuote() {
+            let rd = Math.floor(Math.random() * quotes.length);
+            document.getElementById('chill-quote').innerText = quotes[rd];
+        }
+
+        let pomoInterval;
+        let pomoTime = 25 * 60;
+        function startPomodoro() {
+            clearInterval(pomoInterval);
+            pomoInterval = setInterval(() => {
+                pomoTime--;
+                let m = Math.floor(pomoTime / 60);
+                let s = pomoTime % 60;
+                document.getElementById('pomo-time').innerText = `${m < 10 ? '0':''}${m}:${s < 10 ? '0':''}${s}`;
+                if(pomoTime <= 0) {
+                    clearInterval(pomoInterval);
+                    alert("Hết 25 phút! Nghỉ ngơi xíu đi ní ơi!");
+                }
+            }, 1000);
+        }
+        function resetPomodoro() {
+            clearInterval(pomoInterval);
+            pomoTime = 25 * 60;
+            document.getElementById('pomo-time').innerText = "25:00";
+        }
+
+        // 6. CÀI ĐẶT
+        function resetData() {
+            if(confirm("Cảnh báo: Xóa sạch toàn bộ dữ liệu, cày lại từ đầu?")) {
+                localStorage.removeItem('7a7_data');
+                location.reload();
+            }
+        }
+
+        // Khởi động
+        checkStreak();
+        updateUI();
+
+    </script>
+</body>
+</html>
