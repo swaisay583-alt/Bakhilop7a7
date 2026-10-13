@@ -1,1 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ngôi Nhà 7A7</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Arial,sans-serif;
+ background:#f2f5ff;color:#17233e
+}
+header{
+ background:#172554;color:white;padding:20px 16px;
+ text-align:center
+}
+header h1{margin:5px;font-size:27px}
+header p{color:#c7d2fe}
+nav{
+ display:flex;gap:8px;padding:12px;
+ background:white;overflow-x:auto;
+ position:sticky;top:0;z-index:5;
+ box-shadow:0 3px 12px #0001
+}
+nav button{
+ white-space:nowrap;border:0;border-radius:12px;
+ padding:12px 16px;background:#eef2ff;
+ color:#26345c;font-weight:bold
+}
+nav button.active{background:#536dfe;color:white}
+main{max-width:900px;margin:auto;padding:18px}
+.hero{
+ padding:28px 22px;border-radius:22px;
+ color:white;background:linear-gradient(135deg,#4f46e5,#0ea5e9);
+ margin-bottom:22px
+}
+.hero h2{font-size:29px;margin:0 0 12px}
+.section{display:none}
+.section.active{display:block}
+.grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:13px
+}
+.card{
+ background:white;padding:17px;border-radius:18px;
+ box-shadow:0 4px 15px #1725540b
+}
+.card .emoji{font-size:34px}
+.card h3{margin:10px 0}
+.card p{color:#64748b;font-size:14px;line-height:1.5}
+button{cursor:pointer}
+.action{
+ width:100%;padding:12px;border:0;border-radius:11px;
+ background:#536dfe;color:white;font-weight:bold;font-size:15px
+}
+.subject{margin-bottom:15px}
+#game{
+ margin-top:18px;background:white;padding:20px;
+ border-radius:18px;display:none
+}
+.answer{
+ display:block;width:100%;text-align:left;
+ padding:13px;margin:9px 0;border:1px solid #dbe3f3;
+ background:#f8faff;color:#17233e;border-radius:11px;
+ font-size:15px
+}
+.answer:disabled{cursor:default}
+#feedback{font-weight:bold;line-height:1.6}
+.small{color:#64748b;font-size:13px}
+footer{text-align:center;padding:30px;color:#64748b}
+@media(min-width:650px){
+ .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+</style>
+</head>
+<body>
+<header>
+ <div style="font-size:38px">🏠</div>
+ <h1>NGÔI NHÀ 7A7</h1>
+ <p>Đoàn kết · Học tập · Bá khí</p>
+</header>
 
+<nav>
+ <button class="active" onclick="showTab('home',this)">🏠 Trang chủ</button>
+ <button onclick="showTab('study',this)">📚 Ngôi Nhà Học Tập</button>
+</nav>
+
+<main>
+<section id="home" class="section active">
+ <div class="hero">
+  <h2>Chào mừng đến nhà 7A7! 🎉</h2>
+  <p>Mỗi ngày học một chút, mỗi ngày giỏi hơn.
+  Vào khu học tập để khám phá các trò chơi khoa học nhé!</p>
+  <button class="action" style="background:white;color:#4338ca"
+   onclick="showTab('study',document.querySelectorAll('nav button')[1])">
+   Khám phá ngay 🚀
+  </button>
+ </div>
+ <h2>🏡 Ngôi nhà của chúng ta</h2>
+ <div class="grid">
+  <div class="card"><div class="emoji">📚</div>
+   <h3>Học tập</h3><p>Học kiến thức qua trò chơi.</p></div>
+  <div class="card"><div class="emoji">🏆</div>
+   <h3>Thử thách</h3><p>Trả lời đúng để tích lũy điểm.</p></div>
+  <div class="card"><div class="emoji">🧠</div>
+   <h3>Rèn trí tuệ</h3><p>Luyện tư duy và phản xạ.</p></div>
+ </div>
+</section>
+
+<section id="study" class="section">
+ <div class="hero">
+  <h2>📚 Ngôi Nhà Học Tập</h2>
+  <p>Chọn môn học, chọn trò chơi và bắt đầu chinh phục!</p>
+ </div>
+ <div class="grid">
+  <div class="card">
+   <div class="emoji">🧪</div><h3>Hóa học</h3>
+   <p>Kiến thức và câu hỏi hóa học cơ bản.</p>
+   <button class="action" onclick="startGame('hoa')">Vào chơi</button>
+  </div>
+  <div class="card">
+   <div class="emoji">🌱</div><h3>Sinh học</h3>
+   <p>Khám phá tế bào và thế giới sống.</p>
+   <button class="action" onclick="startGame('sinh')">Vào chơi</button>
+  </div>
+  <div class="card">
+   <div class="emoji">⚡</div><h3>Vật lý</h3>
+   <p>Ánh sáng, âm thanh và lực.</p>
+   <button class="action" onclick="startGame('ly')">Vào chơi</button>
+  </div>
+ </div>
+ <div id="game">
+  <h2 id="gameTitle">🎮 Trò chơi</h2>
+  <p id="progress" class="small"></p>
+  <h3 id="question"></h3>
+  <div id="answers"></div>
+  <p id="feedback"></p>
+  <button id="next" class="action" style="display:none"
+   onclick="nextQuestion()">Câu tiếp theo →</button>
+  <button class="action" style="background:#64748b;margin-top:10px"
+   onclick="closeGame()">← Chọn môn khác</button>
+ </div>
+</section>
+</main>
+
+<footer>💙 Ngôi Nhà 7A7 · Cùng nhau tiến bộ!</footer>
+
+<script>
+const quizzes={
+hoa:[
+ {q:"Chất nào sau đây là kim loại?",a:["Oxi","Sắt","Nước","Khí cacbon đioxit"],c:1,e:"Sắt là một kim loại."},
+ {q:"Kí hiệu hóa học của oxi là gì?",a:["Ox","O","Oi","X"],c:1,e:"Kí hiệu hóa học của oxi là O."},
+ {q:"Nước tinh khiết có công thức nào?",a:["CO₂","O₂","H₂O","NaCl"],c:2,e:"Một phân tử nước gồm hai H và một O."},
+ {q:"Đúng hay sai: Không khí là chất tinh khiết.",a:["Đúng","Sai"],c:1,e:"Không khí là hỗn hợp nhiều chất khí."}
+],
+sinh:[
+ {q:"Đơn vị cấu tạo cơ bản của cơ thể sống là gì?",a:["Tế bào","Viên đá","Phân tử nước","Ánh sáng"],c:0,e:"Tế bào là đơn vị cấu tạo và chức năng cơ bản của cơ thể sống."},
+ {q:"Bộ phận nào thường chứa chất diệp lục?",a:["Rễ cây","Lá cây","Hoa đá","Đất"],c:1,e:"Lá thường chứa nhiều lục lạp có chất diệp lục."},
+ {q:"Thực vật cần gì để quang hợp?",a:["Ánh sáng","Nhựa","Nhựa đường","Kim loại"],c:0,e:"Quang hợp cần ánh sáng, nước và khí CO₂."},
+ {q:"Đúng hay sai: Mọi sinh vật đều cần năng lượng.",a:["Đúng","Sai"],c:0,e:"Sinh vật cần năng lượng để duy trì hoạt động sống."}
+],
+ly:[
+ {q:"Đơn vị đo lực là gì?",a:["Mét","Kilôgam","Niutơn (N)","Giây"],c:2,e:"Lực được đo bằng niutơn, kí hiệu N."},
+ {q:"Âm thanh truyền được trong môi trường nào?",a:["Chân không","Chất rắn","Chỉ trong không khí","Không môi trường nào"],c:1,e:"Âm truyền được trong chất rắn, lỏng và khí, nhưng không truyền trong chân không."},
+ {q:"Ánh sáng truyền trong chân không như thế nào?",a:["Truyền được","Không truyền được","Chỉ truyền ban đêm","Chỉ truyền khi có gió"],c:0,e:"Ánh sáng truyền được trong chân không."},
+ {q:"Đúng hay sai: Nam châm có thể hút sắt.",a:["Đúng","Sai"],c:0,e:"Nam châm hút các vật liệu như sắt."}
+]
+};
+let list=[],index=0,score=0,answered=false;
+const names={hoa:"🧪 Hóa học",sinh:"🌱 Sinh học",ly:"⚡ Vật lý"};
+function showTab(id,btn){
+ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+}
+function startGame(subject){
+ list=quizzes[subject];index=0;score=0;
+ document.getElementById('game').style.display='block';
+ document.getElementById('gameTitle').textContent=names[subject]+' · Thử thách';
+ renderQuestion();
+ document.getElementById('game').scrollIntoView({behavior:'smooth'});
+}
+function renderQuestion(){
+ answered=false;
+ const q=list[index];
+ document.getElementById('progress').textContent=
+ 'Câu '+(index+1)+'/'+list.length+' · Điểm: '+score;
+ document.getElementById('question').textContent=q.q;
+ document.getElementById('feedback').textContent='';
+ document.getElementById('next').style.display='none';
+ const box=document.getElementById('answers');box.innerHTML='';
+ q.a.forEach((a,i)=>{
+  const b=document.createElement('button');
+  b.className='answer';b.textContent=String.fromCharCode(65+i)+'. '+a;
+  b.onclick=()=>answer(i);box.appendChild(b);
+ });
+}
+function answer(i){
+ if(answered)return;answered=true;
+ const q=list[index];
+ if(i===q.c)score++;
+ document.querySelectorAll('.answer').forEach((b,j)=>{
+  b.disabled=true;
+  if(j===q.c)b.style.background='#dcfce7';
+  else if(j===i)b.style.background='#fee2e2';
+ });
+ document.getElementById('feedback').textContent=
+ (i===q.c?'🎉 Chính xác! ':'💡 Chưa đúng nhé! ')+q.e;
+ const next=document.getElementById('next');
+ next.style.display='block';
+ next.textContent=index===list.length-1?'Xem kết quả 🏆':'Câu tiếp theo →';
+}
+function nextQuestion(){
+ if(!answered)return;
+ if(index<list.length-1){index++;renderQuestion();return;}
+ document.getElementById('gameTitle').textContent='🏆 Hoàn thành thử thách!';
+ document.getElementById('progress').textContent=
+ 'Kết quả: '+score+'/'+list.length+' câu đúng';
+ document.getElementById('question').textContent=
+ score===list.length?'Xuất sắc! Bro đã trả lời đúng tất cả!':
+ 'Cố gắng thêm nhé! Học lại rồi thử sức lần nữa.';
+ document.getElementById('answers').innerHTML='';
+ document.getElementById('feedback').textContent='Tổng điểm: '+score;
+ document.getElementById('next').style.display='none';
+}
+function closeGame(){
+ document.getElementById('game').style.display='none';
+}
+</script>
+</body>
+  </html>
